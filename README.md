@@ -1,6 +1,6 @@
 # Java Console Application School Data Management System - Part B
 
-This is an application that creates a pravete school structure.
+This is an application that creates a private school structure.
 It creates a database that stores data 
 
  Design the ERD of your system and verify it through an online tool such as
