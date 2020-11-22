@@ -3,9 +3,10 @@
 USE `privateschool`;
 
 SELECT 
-	`title` AS `Title`,
+    `title` AS `Title`,
     `description` AS `Description`,
     `subdatetime` AS `SubDateTime`,
     `oralmark` AS `OralMark`,
     `totalmark` AS `TotalMark`
-FROM `assignments`
+FROM
+    `assignments`

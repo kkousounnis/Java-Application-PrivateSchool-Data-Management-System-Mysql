@@ -2,15 +2,17 @@
 
 use `privateschool`;
 
-SELECT `courses`.`Cid` AS Course_ID,
-`courses`.`title` AS Title,
- `courses`.`stream` AS Sream,
- `courses`.`type` AS Type,
- `students`.`firstname` AS First_Name,
- `students`.`lastname` AS Last_Name
-FROM `studentspercourses`
-inner join `students`
-on  `students`.`Sid` = `studentspercourses`.`id_student`
-inner join `courses`
-on `courses`.`Cid` = `studentspercourses`.`id_course`
-order by `courses`.`Cid`;
+SELECT 
+    `courses`.`Cid` AS `Course_ID`,
+    `courses`.`title` AS `Title`,
+    `courses`.`stream` AS `Sream`,
+    `courses`.`type` AS `Type`,
+    `students`.`firstname` AS `Srudents_First_Name`,
+    `students`.`lastname` AS `Students_Last_Name`
+FROM
+    `studentspercourses`
+        INNER JOIN
+    `students` ON `students`.`Sid` = `studentspercourses`.`id_student`
+        INNER JOIN
+    `courses` ON `courses`.`Cid` = `studentspercourses`.`id_course`
+ORDER BY `courses`.`Cid`;
