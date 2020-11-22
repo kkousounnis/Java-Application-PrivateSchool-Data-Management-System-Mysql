@@ -1,9 +1,12 @@
 # Java Console Application School Data Management System - Part B
 
+This is an application that creates a pravete school structure.
+It creates a database that stores data 
+
  Design the ERD of your system and verify it through an online tool such as
 https://sqldbm.com/ .Identify any other tables you need based on your implementation and
 construct them 
-3. Make the schema of a database that can keep data for the main entities of
+ Make the schema of a database that can keep data for the main entities of
 the assignment and name the tables as: Students, Trainers, Assignments,
 Courses.
 4.The tables are populated with enough data.
