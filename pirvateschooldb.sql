@@ -1,4 +1,4 @@
-DROP DATABASE `privateschool`;
+DROP DATABASE IF EXISTS `privateschool`;
 CREATE DATABASE `privateschool`;
 USE `privateschool` ;
 
