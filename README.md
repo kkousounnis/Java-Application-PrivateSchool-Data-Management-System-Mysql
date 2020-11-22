@@ -14,12 +14,19 @@ Courses.
 • A list of all the trainers.
 
 • A list of all the assignments.
+
 • A list of all the courses.
+
 • All the students per course.
+
 • All the trainers per course.
+
 • All the assignments per course.
+
 • All the assignments per course per student.
+
 • A list of students that belong to more than one courses.
+
 6. You also need to produce a small project that.
 a. makes a connection to the database and executes the above sql
 queries b. makes a connection to the database and inserts input data from the
