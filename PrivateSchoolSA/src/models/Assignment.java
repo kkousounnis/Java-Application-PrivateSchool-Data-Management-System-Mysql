@@ -1,6 +1,8 @@
 package models;
 
-public class Assignment {
+import interfaces.IAssignment;
+
+public class Assignment implements IAssignment{
 
     private TitleName title;
     private String description;

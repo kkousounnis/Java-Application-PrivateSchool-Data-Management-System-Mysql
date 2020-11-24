@@ -1,6 +1,7 @@
 package controller;
 
 import dao.UserDao;
+import java.io.IOException;
 import java.util.Scanner;
 import models.*;
 
@@ -9,6 +10,7 @@ public class WelcomeScreen {
     public Scanner scan = new Scanner(System.in);
     private int choice = 0;
     UserDao ud = new UserDao();
+
     public WelcomeScreen() {
 
         Menu();
@@ -22,7 +24,7 @@ public class WelcomeScreen {
         switch (this.choice) {
             case 1:
                 mainMenu();
-                break;            
+                break;
             case 2:
                 System.out.println("Goodbey!!!");
                 break;
@@ -63,7 +65,7 @@ public class WelcomeScreen {
     }
 
     public void courseMenu() {
-        
+
         showCourseMenu();
         //i assigned to 3 because i only 1,2,3,4,5,6 choices 
         this.choice = checkIntegerInput(6);
@@ -110,9 +112,10 @@ public class WelcomeScreen {
                 studentMenu();
                 break;
             case 2:
-                clearConsole();                
+                clearConsole();
                 ud.showSudents();
                 ControllerData.showStudents();
+                pressAnyKeyToContinue();
                 studentMenu();
                 break;
             case 3:
@@ -155,21 +158,21 @@ public class WelcomeScreen {
 
             case 5:
                 clearConsole();
-                 if (AddDataLists.getArrCourse().size() > 1) {
+                if (AddDataLists.getArrCourse().size() > 1) {
                     // show students who attend in more than one course                
                     ControllerData.showStudentsMultipleCourses();
                     System.out.println("");
-                 }else{
-                     System.out.println("\n---No multiple courses have"
-                             + " been assigned yet.---\n"); 
-                     ControllerData.showCourses();
-                     System.out.println("We must have more than two" 
-                             + " courses assigned.\n");
-                     System.out.println(" PLease go to course menu"
-                             + " and assign more than 1 course.Then go"
-                             + " to student menu and assign students to more"
-                             + " than one course");
-                 }
+                } else {
+                    System.out.println("\n---No multiple courses have"
+                            + " been assigned yet.---\n");
+                    ControllerData.showCourses();
+                    System.out.println("We must have more than two"
+                            + " courses assigned.\n");
+                    System.out.println(" PLease go to course menu"
+                            + " and assign more than 1 course.Then go"
+                            + " to student menu and assign students to more"
+                            + " than one course");
+                }
                 studentMenu();
                 break;
             case 6:
@@ -261,7 +264,7 @@ public class WelcomeScreen {
                 //UserInput.getArrayCalendarWeekFromUserDate();
                 if (AddDataLists.getArrCourse().size() > 0) {
                     ControllerData.showStudentsAssignmentsRelevantToGivenDate();
-                }else {
+                } else {
                     System.out.println("\n---No courses have been assigned yet.---\n");
                 }
                 assignmentMenu();
@@ -372,6 +375,14 @@ public class WelcomeScreen {
         for (int i = 0; i < 80; i++) // Default Height of cmd is 300 and Default width is 80
         {
             System.out.println("");
+        }
+    }
+
+    public static void pressAnyKeyToContinue() {
+        System.out.println("Press Enter key to continue...");
+        try {
+            System.in.read();
+        } catch (IOException e) {
         }
     }
 

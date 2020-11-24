@@ -1,6 +1,7 @@
 package util;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 public class DbUtil {
 
@@ -18,6 +19,7 @@ public class DbUtil {
 
             System.out.println("Connecting to database...");
             connection = DriverManager.getConnection(DB_URL, USER, PASS);
+            System.out.println("Connection Established");
 
         } catch (Exception e) {
 

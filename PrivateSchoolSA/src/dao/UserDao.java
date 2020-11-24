@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import models.AddDataLists;
 import models.ControllerData;
 import models.ConvertDateLong;
@@ -13,7 +14,6 @@ import util.DbUtil;
 public class UserDao {
 
     private static Connection connection;
-    private static PreparedStatement preparedStatement;
 
     public UserDao() {
         connection = DbUtil.getConnection();
@@ -26,25 +26,9 @@ public class UserDao {
 
     }
 
-    public void example() {
-        String coursetitle = "course1";
-        String stream = null;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `privateschool`.`courses` where title=?");
-            preparedStatement.setString(1, coursetitle);
-            ResultSet rs = preparedStatement.executeQuery();
-
-            if (rs.next()) {
-                stream = rs.getString("stream");
-                System.out.println(stream);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void addDbStudents(Student s) {
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
         try {
 
             preparedStatement = connection.prepareStatement(
@@ -64,18 +48,43 @@ public class UserDao {
 
             preparedStatement.executeUpdate();
 
+            preparedStatement.close();
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    /* ignored */
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    /* ignored */
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    /* ignored */
+                }
+            }
         }
     }
 
     public void showSudents() {
         Student s;
+        Statement statement = null;
+        ResultSet rs = null;
         try {
-            preparedStatement
-                    = connection.prepareStatement("SELECT * FROM `students`");
+            statement = connection.createStatement();
 
-            ResultSet rs = preparedStatement.executeQuery();
+            rs = statement.executeQuery("SELECT * FROM `students`");
 
             while (rs.next()) {
 
@@ -87,9 +96,35 @@ public class UserDao {
                 AddDataLists.AddStudentsLists(s);
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    /* ignored */
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    /* ignored */
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    /* ignored */
+                }
+            }
         }
+
     }
 
 }

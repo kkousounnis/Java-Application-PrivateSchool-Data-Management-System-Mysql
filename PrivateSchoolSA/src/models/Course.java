@@ -1,6 +1,8 @@
 package models;
 
-public class Course {
+import interfaces.ICourse;
+
+public class Course implements ICourse{
 
     private TitleName title;
     private String stream;
@@ -31,38 +33,47 @@ public class Course {
 
     }
 
+    @Override
     public TitleName getTitle() {
         return title;
     }
 
+    @Override
     public String getStream() {
         return stream;
     }
 
+    @Override
     public void setStream(String stream) {
         this.stream = stream;
     }
 
+    @Override
     public boolean getType() {
         return type;
     }
 
+    @Override
     public void setType(boolean type) {
         this.type = type;
     }
 
+    @Override
     public long getStartDate() {
         return startDate;
     }
 
+    @Override
     public void setStartDate(long startDate) {
         this.startDate = startDate;
     }
 
+    @Override
     public long getEndDate() {
         return endDate;
     }
 
+    @Override
     public void setEndDate(long endDate) {
         this.endDate = endDate;
     }

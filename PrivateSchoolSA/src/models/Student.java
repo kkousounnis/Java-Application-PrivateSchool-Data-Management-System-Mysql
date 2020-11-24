@@ -1,6 +1,8 @@
 package models;
 
-public class Student extends Person {
+import interfaces.IStudent;
+
+public class Student extends Person implements IStudent{
 
     private long dateOfBirth;
     private int tuitionFees;
@@ -18,18 +20,22 @@ public class Student extends Person {
         this.coursesPStudent = new CoursesPStudent();
     }
 
+    @Override
     public long getDateOfBirth() {
         return dateOfBirth;
     }
 
+    @Override
     public void setDateOfBirth(long dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
+    @Override
     public int getTuitionFees() {
         return tuitionFees;
     }
 
+    @Override
     public void setTuitionFees(int tuitionFees) {
         this.tuitionFees = tuitionFees;
     }

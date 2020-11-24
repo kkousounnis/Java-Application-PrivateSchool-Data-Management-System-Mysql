@@ -1,6 +1,8 @@
 package models;
 
-public class Trainer extends Person {
+import interfaces.ITrainer;
+
+public class Trainer extends Person implements ITrainer{
 
     private String subject;
 
@@ -13,10 +15,12 @@ public class Trainer extends Person {
         this.subject = subject;
     }
 
+    @Override
     public String getSubject() {
         return subject;
     }
 
+    @Override
     public void setSubject(String subject) {
         this.subject = subject;
     }
