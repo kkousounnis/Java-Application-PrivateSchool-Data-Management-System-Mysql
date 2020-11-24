@@ -1,5 +1,6 @@
 package controller;
 
+import dao.UserDao;
 import java.util.Scanner;
 import models.*;
 
@@ -7,7 +8,7 @@ public class WelcomeScreen {
 
     public Scanner scan = new Scanner(System.in);
     private int choice = 0;
-
+    UserDao ud = new UserDao();
     public WelcomeScreen() {
 
         Menu();
@@ -109,7 +110,8 @@ public class WelcomeScreen {
                 studentMenu();
                 break;
             case 2:
-                clearConsole();
+                clearConsole();                
+                ud.showSudents();
                 ControllerData.showStudents();
                 studentMenu();
                 break;

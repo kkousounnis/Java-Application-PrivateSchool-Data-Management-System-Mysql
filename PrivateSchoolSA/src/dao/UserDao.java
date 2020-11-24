@@ -12,8 +12,8 @@ import util.DbUtil;
 
 public class UserDao {
 
-    private Connection connection;
-    private PreparedStatement preparedStatement;
+    private static Connection connection;
+    private static PreparedStatement preparedStatement;
 
     public UserDao() {
         connection = DbUtil.getConnection();
