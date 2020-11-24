@@ -16,17 +16,13 @@ public class WelcomeScreen {
     public void Menu() {
         clearConsole();
         showWelcomeMenu();
-        //i assigned to 3 because i only 1,2,3 choices 
-        this.choice = checkIntegerInput(3);
+        //i assigned to 3 because i only 1,2 choices 
+        this.choice = checkIntegerInput(2);
         switch (this.choice) {
             case 1:
                 mainMenu();
-                break;
+                break;            
             case 2:
-                FakeDataCreate.intializeLists();
-                mainMenu();
-                break;
-            case 3:
                 System.out.println("Goodbey!!!");
                 break;
         }
@@ -288,9 +284,8 @@ public class WelcomeScreen {
                 + " intensive lessons for someone who desires"
                 + " to learn.");
         System.out.println("Please choose how would you like to proceed.");
-        System.out.println("1: Proceed to Main Menu.");
-        System.out.println("2: Create fake data and proceed to Main Menu.");
-        System.out.println("3: Terminate.");
+        System.out.println("1: Proceed Insert/Assign Main Menu.");
+        System.out.println("2: Terminate.");
     }
 
     public void showMainMenu() {

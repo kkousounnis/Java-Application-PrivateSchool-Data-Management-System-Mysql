@@ -6,12 +6,12 @@ public class Student extends Person {
     private int tuitionFees;
     public CoursesPStudent coursesPStudent;
 
-    Student(String firstName, String lastName) {
+    public Student(String firstName, String lastName) {
         super(firstName, lastName);
         this.coursesPStudent = new CoursesPStudent();
     }
 
-    Student(String firstName, String lastName, long dateOfBirth, int tuitionFees) {
+    public Student(String firstName, String lastName, long dateOfBirth, int tuitionFees) {
         super(firstName, lastName);
         this.dateOfBirth = dateOfBirth;
         this.tuitionFees = tuitionFees;

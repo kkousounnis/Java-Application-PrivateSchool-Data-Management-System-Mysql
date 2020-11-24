@@ -19,12 +19,21 @@ public class ConvertDateLong {
         }
         return milliseconds;
     }
+
+    public static long convertDbDate(Date date) {
+
+        long milliseconds = 0;
+        milliseconds = date.getTime();
+        return milliseconds;
+    }
+
     //converting long to a string date with more information 10-january-2019
     public static String convertLong(long date) {
         Date d = new Date(date);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMMM-yyyy");
         return dateFormat.format(d);
     }
+
     //coverting long to original input like this dd/mm/yyyy
     public static String convertLongToOriginalFormat(long date) {
         Date d = new Date(date);
@@ -37,7 +46,7 @@ public class ConvertDateLong {
 
         DateTimeFormatter formatter;
         LocalDate localDate = null;
-        Date date; 
+        Date date;
 
         try {
             formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -54,5 +63,12 @@ public class ConvertDateLong {
         //i return date of birth as a string and 
 
         return localDate;
+    }
+
+    //coverting long to a database input like this yyy/mm/dd
+    public static String convertLongToDataBaesFormat(long date) {
+        Date d = new Date(date);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd");
+        return dateFormat.format(d);
     }
 }

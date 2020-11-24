@@ -6,7 +6,7 @@ public class DbUtil {
 
     private static Connection connection = null;
     private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost/";
+    private static final String DB_URL = "jdbc:mysql://localhost/privateschool";
     private static final String USER = "root";
     private static final String PASS = "password";
 

@@ -1,6 +1,7 @@
 package models;
 
 import controller.WelcomeScreen;
+import dao.UserDao;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -9,12 +10,13 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class UserInput {
-
+    
     UserInput() {
 
     }
 
     public static void manualStudentsLists() {
+        UserDao dao = new UserDao();
         WelcomeScreen.clearConsole();
         Scanner sc = new Scanner(System.in);
         Person p = new Person();
@@ -53,17 +55,9 @@ public class UserInput {
             s.setTuitionFees(checkMultimpleIntInput(student[3]));
 
         }
-        AddDataLists.AddStudentsLists(s);
-        if (AddDataLists.getArrCourse().size() > 0) {
-            ControllerData.showCourses();
-            System.out.println("Please tell me to which course"
-                    + " will the student attend");
-            int courseIndex = checkIntegerInput(AddDataLists.getArrCourse().size());
-            ControllerData.setStudentsPCourse(AddDataLists.getArrCourse().get(courseIndex - 1), s);
-            ControllerData.setCoursesPStudent(s, AddDataLists.getArrCourse().get(courseIndex - 1));
-        } else {
-            System.out.println("\n---No courses have been assigned yet.---\n");
-        }
+        
+        dao.addDbStudents(s);
+        
 
     }
 
