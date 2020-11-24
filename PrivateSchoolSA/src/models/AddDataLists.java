@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class AddDataLists {
 
-    private static final ArrayList<Student> arrStudent = new ArrayList<Student>();
-    private static final ArrayList<Trainer> arrTrainer = new ArrayList<Trainer>();
-    private static final ArrayList<Course> arrCourse = new ArrayList<Course>();
-    private static final ArrayList<Assignment> arrAssignment = new ArrayList<Assignment>();
+    private static ArrayList<Student> arrStudent = new ArrayList<>();
+    private static final ArrayList<Trainer> arrTrainer = new ArrayList<>();
+    private static final ArrayList<Course> arrCourse = new ArrayList<>();
+    private static final ArrayList<Assignment> arrAssignment = new ArrayList<>();
 
     AddDataLists() {
         

@@ -1,7 +1,6 @@
 package controller;
 
 import dao.UserDao;
-import java.io.IOException;
 import java.util.Scanner;
 import models.*;
 
@@ -115,7 +114,6 @@ public class WelcomeScreen {
                 clearConsole();
                 ud.showSudents();
                 ControllerData.showStudents();
-                pressAnyKeyToContinue();
                 studentMenu();
                 break;
             case 3:
@@ -382,7 +380,7 @@ public class WelcomeScreen {
         System.out.println("Press Enter key to continue...");
         try {
             System.in.read();
-        } catch (IOException e) {
+        } catch (Exception e) {
         }
     }
 

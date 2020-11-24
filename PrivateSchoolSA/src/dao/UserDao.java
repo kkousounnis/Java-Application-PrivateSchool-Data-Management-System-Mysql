@@ -48,32 +48,8 @@ public class UserDao {
 
             preparedStatement.executeUpdate();
 
-            preparedStatement.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    /* ignored */
-                }
-            }
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    /* ignored */
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    /* ignored */
-                }
-            }
         }
     }
 
@@ -93,36 +69,12 @@ public class UserDao {
                         rs.getString("lastname"),
                         ConvertDateLong.convertDbDate(rs.getDate("dateofbirth")),
                         rs.getInt("tuitionfees"));
-                AddDataLists.AddStudentsLists(s);
+                if (rs.getInt("Sid") > AddDataLists.getArrStudent().size()) {
+                    AddDataLists.AddStudentsLists(s);
+                }
             }
-
-            rs.close();
-            statement.close();
-            connection.close();
         } catch (SQLException se) {
             se.printStackTrace();
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    /* ignored */
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    /* ignored */
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    /* ignored */
-                }
-            }
         }
 
     }
