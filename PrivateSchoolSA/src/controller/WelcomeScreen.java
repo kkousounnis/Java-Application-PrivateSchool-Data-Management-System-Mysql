@@ -8,7 +8,7 @@ public class WelcomeScreen {
 
     public Scanner scan = new Scanner(System.in);
     private int choice = 0;
-    UserDao ud = new UserDao();
+    
 
     public WelcomeScreen() {
 
@@ -71,6 +71,7 @@ public class WelcomeScreen {
         switch (this.choice) {
             case 1:
                 UserInput.manualCourseList();
+                pressAnyKeyToContinue();
                 courseMenu();
                 break;
             case 2:
@@ -110,11 +111,12 @@ public class WelcomeScreen {
             case 1:
                 clearConsole();
                 UserInput.manualStudentsLists();
+                pressAnyKeyToContinue();
                 studentMenu();
                 break;
             case 2:
                 clearConsole();
-                ud.showSudents();
+                UserDao.showSudents();
                 ControllerData.showStudents();
                 pressAnyKeyToContinue();
                 studentMenu();
@@ -132,7 +134,8 @@ public class WelcomeScreen {
                     courseIndex = checkIntegerInput(AddDataLists.getArrCourse().size());
                     ControllerData.setStudentsPCourse(AddDataLists.getArrCourse().get(courseIndex - 1),
                             AddDataLists.getArrStudent().get(studentIndex - 1));
-                    ControllerData.setCoursesPStudent(AddDataLists.getArrStudent().get(studentIndex - 1), AddDataLists.getArrCourse().get(courseIndex - 1));
+                    ControllerData.setCoursesPStudent(
+                            AddDataLists.getArrStudent().get(studentIndex - 1), AddDataLists.getArrCourse().get(courseIndex - 1));
                 } else {
                     System.out.println("\n---No courses have been assigned yet.---\n");
                 }
@@ -193,11 +196,14 @@ public class WelcomeScreen {
             case 1:
                 clearConsole();
                 UserInput.manualTrainer();
+                pressAnyKeyToContinue();
                 trainerMenu();
                 break;
             case 2:
                 clearConsole();
+                UserDao.takeTrainersDb();
                 ControllerData.showTrainers();
+                pressAnyKeyToContinue();
                 trainerMenu();
                 break;
             case 3:

@@ -6,11 +6,11 @@ public class Trainer extends Person implements ITrainer{
 
     private String subject;
 
-    Trainer(String firstName, String lastName) {
+    public Trainer(String firstName, String lastName) {
         super(firstName, lastName);
     }
 
-    Trainer(String firstName, String lastName, String subject) {
+    public Trainer(String firstName, String lastName, String subject) {
         super(firstName, lastName);
         this.subject = subject;
     }

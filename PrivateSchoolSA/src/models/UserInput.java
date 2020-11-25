@@ -103,7 +103,6 @@ public class UserInput {
 
         }
         UserDao.addDbCourses(c);
-        //AddDataLists.AddCourseList(c);
 
     }
 
@@ -136,16 +135,8 @@ public class UserInput {
             t.setSubject(trainer[2]);
 
         }
-
-        AddDataLists.AddTrainer(t);
-        if (AddDataLists.getArrCourse().size() > 0) {
-            ControllerData.showCourses();
-            System.out.println("Please tell me which course"
-                    + " will the trainer teach");
-            ControllerData.setTrainersPCourse(AddDataLists.getArrCourse().get(sc.nextInt() - 1), t);
-        } else {
-            System.out.println("\n---No courses have been assigned yet.---\n");
-        }
+        
+        UserDao.addDbTrainers(t);
     }
 
     public static void manualAssignment() {

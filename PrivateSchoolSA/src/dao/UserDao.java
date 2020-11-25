@@ -11,14 +11,17 @@ import models.ConvertDateLong;
 import models.Course;
 import models.Student;
 import models.TitleName;
+import models.Trainer;
 import util.DbUtil;
 
 public class UserDao {
 
-    private static Connection connection;
+    private static Connection connection = DbUtil.getConnection();
+
+    ;
 
     public UserDao() {
-        connection = DbUtil.getConnection();
+
     }
 
     public static void main(String[] args) {
@@ -28,6 +31,7 @@ public class UserDao {
 
     }
 
+    //add to database students
     public static void addDbStudents(Student s) {
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -55,6 +59,7 @@ public class UserDao {
         }
     }
 
+    //add to database courses
     public static void addDbCourses(Course c) {
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -85,9 +90,32 @@ public class UserDao {
             e.printStackTrace();
         }
     }
+    //add to database trainers
+    public static void addDbTrainers(Trainer t) {
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+
+            preparedStatement = connection.prepareStatement(
+                    "INSERT INTO `trainers`"
+                    + "(`firstname`,"
+                    + "`lastname`,"
+                    + " `subject`)"
+                    + " VALUES (?,?,?)");
+
+            preparedStatement.setString(1, t.getFirstName());
+            preparedStatement.setString(2, t.getLastName());
+            preparedStatement.setString(3, t.getSubject());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     //take from database students
-    public void showSudents() {
+    public static void showSudents() {
         Student s;
         Statement statement = null;
         ResultSet rs = null;
@@ -117,7 +145,7 @@ public class UserDao {
     //take from database courses
     public static void takeCoursesDb() {
         Course c;
-        TitleName titlename ;
+        TitleName titlename;
         Statement statement = null;
         ResultSet rs = null;
         try {
@@ -126,7 +154,7 @@ public class UserDao {
             rs = statement.executeQuery("SELECT * FROM `courses`");
             while (rs.next()) {
                 System.out.println(rs.getString("title"));
-                
+
                 c = new Course(
                         new TitleName(rs.getString("title")),
                         rs.getString("stream"),
@@ -134,8 +162,8 @@ public class UserDao {
                         ConvertDateLong.convertDbDate(
                                 rs.getDate("startdate")),
                         ConvertDateLong.convertDbDate(
-                                rs.getDate("enddate"))
-                );
+                                rs.getDate("enddate")));
+                
                 if (rs.getInt("Cid") > AddDataLists.getArrCourse().size()) {
                     AddDataLists.AddCourseList(c);
                 }
@@ -144,5 +172,35 @@ public class UserDao {
             se.printStackTrace();
         }
     }
+     //take from database trainers
+    public static void takeTrainersDb(){
+        Trainer t;
+        TitleName titlename;
+        Statement statement = null;
+        ResultSet rs = null;
+        try {
+            statement = connection.createStatement();
 
+            rs = statement.executeQuery("SELECT * FROM `trainers`");
+            while (rs.next()) {
+                
+
+                t = new Trainer(
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
+                        rs.getString("subject"));
+                /*
+                    Since the array list is static i add the new values one
+                    time otherwise the array list would add the same values
+                    again and again and we would have multiple times the same 
+                    values.
+                */
+                if (rs.getInt("Tid") > AddDataLists.getArrTrainer().size()) {
+                    AddDataLists.AddTrainer(t);
+                }
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
 }
