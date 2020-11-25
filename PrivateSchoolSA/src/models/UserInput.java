@@ -184,14 +184,7 @@ public class UserInput {
             a.setDescription(s);
 
         }
-        AddDataLists.AddAssignment(a);
-        if (AddDataLists.getArrCourse().size() > 0) {
-            ControllerData.showCourses();
-            System.out.println("Please tell to which course assignment belongs");
-            ControllerData.setAssignmentsPCourse(AddDataLists.getArrCourse().get(sc.nextInt() - 1), a);
-        } else {
-            System.out.println("\n---No courses have been assigned yet.---\n");
-        }
+        UserDao.addDbAssignments(a);
     }
 
     //------------

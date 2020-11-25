@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import models.AddDataLists;
+import models.Assignment;
 import models.ControllerData;
 import models.ConvertDateLong;
 import models.Course;
@@ -18,16 +19,7 @@ public class UserDao {
 
     private static Connection connection = DbUtil.getConnection();
 
-    ;
-
     public UserDao() {
-
-    }
-
-    public static void main(String[] args) {
-        UserDao s = new UserDao();
-        s.showSudents();
-        ControllerData.showStudents();
 
     }
 
@@ -90,6 +82,7 @@ public class UserDao {
             e.printStackTrace();
         }
     }
+
     //add to database trainers
     public static void addDbTrainers(Trainer t) {
         PreparedStatement preparedStatement = null;
@@ -106,6 +99,36 @@ public class UserDao {
             preparedStatement.setString(1, t.getFirstName());
             preparedStatement.setString(2, t.getLastName());
             preparedStatement.setString(3, t.getSubject());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //add to database assignments
+    public static void addDbAssignments(Assignment a) {
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+
+            preparedStatement = connection.prepareStatement(
+                    "INSERT INTO `assignments`"
+                    + "(`title`,"
+                    + "`description`,"
+                    + " `subdatetime`,"
+                    + "`oralmark`,"
+                    + "`totalmark`)"
+                    + " VALUES (?,?,?,?,?)");
+
+            preparedStatement.setString(1, String.valueOf(a.getTitle()));
+            preparedStatement.setString(2, a.getDescription());
+            preparedStatement.setString(
+                    3, ConvertDateLong.convertLongToDataBaesFormat(
+                            a.getSubDateTime()));
+            preparedStatement.setInt(4, a.getOralMark());
+            preparedStatement.setInt(5, a.getTotalMark());
 
             preparedStatement.executeUpdate();
 
@@ -132,6 +155,12 @@ public class UserDao {
                         ConvertDateLong.convertDbDate(
                                 rs.getDate("dateofbirth")),
                         rs.getInt("tuitionfees"));
+                /*
+                    Since the array list is static i add the new values one
+                    time otherwise the array list would add the same values
+                    again and again and we would have multiple times the same 
+                    values.
+                 */
                 if (rs.getInt("Sid") > AddDataLists.getArrStudent().size()) {
                     AddDataLists.AddStudentsLists(s);
                 }
@@ -152,9 +181,7 @@ public class UserDao {
             statement = connection.createStatement();
 
             rs = statement.executeQuery("SELECT * FROM `courses`");
-            while (rs.next()) {
-                System.out.println(rs.getString("title"));
-
+            while (rs.next()) { 
                 c = new Course(
                         new TitleName(rs.getString("title")),
                         rs.getString("stream"),
@@ -163,7 +190,12 @@ public class UserDao {
                                 rs.getDate("startdate")),
                         ConvertDateLong.convertDbDate(
                                 rs.getDate("enddate")));
-                
+                /*
+                    Since the array list is static i add the new values one
+                    time otherwise the array list would add the same values
+                    again and again and we would have multiple times the same 
+                    values.
+                 */
                 if (rs.getInt("Cid") > AddDataLists.getArrCourse().size()) {
                     AddDataLists.AddCourseList(c);
                 }
@@ -172,10 +204,9 @@ public class UserDao {
             se.printStackTrace();
         }
     }
-     //take from database trainers
-    public static void takeTrainersDb(){
+    //take from database trainers
+    public static void takeTrainersDb() {
         Trainer t;
-        TitleName titlename;
         Statement statement = null;
         ResultSet rs = null;
         try {
@@ -183,7 +214,6 @@ public class UserDao {
 
             rs = statement.executeQuery("SELECT * FROM `trainers`");
             while (rs.next()) {
-                
 
                 t = new Trainer(
                         rs.getString("firstname"),
@@ -194,9 +224,39 @@ public class UserDao {
                     time otherwise the array list would add the same values
                     again and again and we would have multiple times the same 
                     values.
-                */
+                 */
                 if (rs.getInt("Tid") > AddDataLists.getArrTrainer().size()) {
                     AddDataLists.AddTrainer(t);
+                }
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
+    
+    //take from database Assignments    
+    public static void takeAssignmentsDb(){
+        Assignment a;
+        Statement statement = null;
+        ResultSet rs = null;
+        try {
+            statement = connection.createStatement();
+
+            rs = statement.executeQuery("SELECT * FROM `assignments`");
+            while (rs.next()) {
+
+                a = new Assignment(
+                        new TitleName(rs.getString("title")),
+                        rs.getString("description"),
+                        ConvertDateLong.convertDbDate(rs.getDate("subdatetime")));
+                /*
+                    Since the array list is static i add the new values one
+                    time otherwise the array list would add the same values
+                    again and again and we would have multiple times the same 
+                    values.
+                 */
+                if (rs.getInt("Aid") > AddDataLists.getArrAssignment().size()) {
+                    AddDataLists.AddAssignment(a);
                 }
             }
         } catch (SQLException se) {

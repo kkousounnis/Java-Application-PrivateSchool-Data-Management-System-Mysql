@@ -10,29 +10,37 @@ public class Assignment implements IAssignment{
     private int oralMark;
     private int totalMark;
 
-    Assignment(TitleName title) {
+    public Assignment(TitleName title) {
         this.title = title;
     }
 
-    Assignment(TitleName title, String description,
+    public Assignment(TitleName title, String description,
             long subDateTime) {
         this.title = title;
         this.description = description;
         this.subDateTime = subDateTime;
     }
 
+    public TitleName getTitle() {
+        return title;
+    }
+    
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @Override
     public long getSubDateTime() {
         return subDateTime;
     }
 
+    @Override
     public void setSubDateTime(long subDateTime) {
         this.subDateTime = subDateTime;
     }

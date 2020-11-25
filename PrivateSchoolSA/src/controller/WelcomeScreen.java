@@ -241,11 +241,14 @@ public class WelcomeScreen {
             case 1:
                 clearConsole();
                 UserInput.manualAssignment();
+                pressAnyKeyToContinue();
                 assignmentMenu();
                 break;
             case 2:
                 clearConsole();
+                UserDao.takeAssignmentsDb();
                 ControllerData.showAssignments();
+                pressAnyKeyToContinue();
                 assignmentMenu();
                 break;
             case 3:
