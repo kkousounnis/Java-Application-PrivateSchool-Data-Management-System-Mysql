@@ -10,6 +10,7 @@ import models.ControllerData;
 import models.ConvertDateLong;
 import models.Course;
 import models.Student;
+import models.TitleName;
 import util.DbUtil;
 
 public class UserDao {
@@ -53,8 +54,8 @@ public class UserDao {
             e.printStackTrace();
         }
     }
-    
-    public static void addDbCourses(Course c){
+
+    public static void addDbCourses(Course c) {
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
@@ -65,14 +66,18 @@ public class UserDao {
                     + "`stream`,"
                     + " `type`,"
                     + " `startdate`,"
-                    + " `enddate`)"         
+                    + " `enddate`)"
                     + " VALUES (?,?,?,?,?)");
 
             preparedStatement.setObject(1, String.valueOf(c.getTitleName()));
             preparedStatement.setString(2, c.getStream());
             preparedStatement.setString(3, c.getType() ? "Fulltime" : "Parttime");
-            preparedStatement.setObject(4,ConvertDateLong.convertLongToDataBaesFormat(c.getStartDate()));                     
-            preparedStatement.setObject(5,ConvertDateLong.convertLongToDataBaesFormat(c.getEndDate()));
+            preparedStatement.setObject(
+                    4, ConvertDateLong.convertLongToDataBaesFormat(
+                            c.getStartDate()));
+            preparedStatement.setObject(
+                    5, ConvertDateLong.convertLongToDataBaesFormat(
+                            c.getEndDate()));
 
             preparedStatement.executeUpdate();
 
@@ -81,6 +86,7 @@ public class UserDao {
         }
     }
 
+    //take from database students
     public void showSudents() {
         Student s;
         Statement statement = null;
@@ -106,6 +112,37 @@ public class UserDao {
             se.printStackTrace();
         }
 
+    }
+
+    //take from database courses
+    public static void takeCoursesDb() {
+        Course c;
+        TitleName titlename ;
+        Statement statement = null;
+        ResultSet rs = null;
+        try {
+            statement = connection.createStatement();
+
+            rs = statement.executeQuery("SELECT * FROM `courses`");
+            while (rs.next()) {
+                System.out.println(rs.getString("title"));
+                
+                c = new Course(
+                        new TitleName(rs.getString("title")),
+                        rs.getString("stream"),
+                        (rs.getString("type").charAt(0) == 'F') ? true : false,
+                        ConvertDateLong.convertDbDate(
+                                rs.getDate("startdate")),
+                        ConvertDateLong.convertDbDate(
+                                rs.getDate("enddate"))
+                );
+                if (rs.getInt("Cid") > AddDataLists.getArrCourse().size()) {
+                    AddDataLists.AddCourseList(c);
+                }
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
     }
 
 }

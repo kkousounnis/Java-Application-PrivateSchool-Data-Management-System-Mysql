@@ -4,7 +4,7 @@ public class TitleName {
 
     private String title;
 
-    TitleName(String title) {
+    public TitleName(String title) {
         this.title = title;
     }
 

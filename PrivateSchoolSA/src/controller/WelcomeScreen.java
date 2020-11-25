@@ -74,7 +74,9 @@ public class WelcomeScreen {
                 courseMenu();
                 break;
             case 2:
+                UserDao.takeCoursesDb();
                 ControllerData.showCourses();
+                pressAnyKeyToContinue();
                 courseMenu();
                 break;
             case 3:
@@ -288,7 +290,7 @@ public class WelcomeScreen {
                 + " intensive lessons for someone who desires"
                 + " to learn.");
         System.out.println("Please choose how would you like to proceed.");
-        System.out.println("1: Proceed Insert/Assign Main Menu.");
+        System.out.println("1: Proceed to Main Menu and Insert/Assign Data.");
         System.out.println("2: Terminate.");
     }
 

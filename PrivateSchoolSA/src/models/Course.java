@@ -13,14 +13,14 @@ public class Course implements ICourse{
     public TrainersPCourse trainerPerCourse;
     public AssignmentsPCourse assignmentPerCourse;
 
-    Course(TitleName title) {
+    public Course(TitleName title) {
         this.title = title;
         this.studentsPerCourse = new StudentsPCourse();
         this.trainerPerCourse = new TrainersPCourse();
         this.assignmentPerCourse = new AssignmentsPCourse();
     }
 
-    Course(TitleName title, String stream, boolean type,
+    public Course(TitleName title, String stream, boolean type,
             long startDate, long endDate) {
         this.title = title;
         this.stream = stream;

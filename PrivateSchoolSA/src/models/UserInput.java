@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class UserInput {
-   
+
     UserInput() {
 
     }
@@ -54,13 +54,12 @@ public class UserInput {
             s.setTuitionFees(checkMultimpleIntInput(student[3]));
 
         }
-        
+
         UserDao.addDbStudents(s);
-        
 
     }
 
-    public static void manualCourseList() { 
+    public static void manualCourseList() {
         Scanner sc = new Scanner(System.in);
         char tmp;
         TitleName t1;
@@ -71,12 +70,10 @@ public class UserInput {
             t1 = new TitleName(checkStringInputLength());
             c = new Course(t1);
             System.out.println("Please give the name of course");
-            c.setStream(checkStringInputLength());
-//            do {
+            c.setStream(checkStringInputLength()); 
             System.out.println("Please type (f) if it is FullTime"
                     + " or type (p) if it is PartTime");
-            tmp = sc.next().charAt(0);
-//            } while (checkInputType(tmp) == false);
+            tmp = sc.next().charAt(0); 
             c.setType(checkPartTimeFullTimeInput(tmp));
             System.out.println("Please give me the start date of the course");
             c.setStartDate(checkDateInput());
@@ -107,7 +104,6 @@ public class UserInput {
         }
         UserDao.addDbCourses(c);
         //AddDataLists.AddCourseList(c);
-        
 
     }
 
