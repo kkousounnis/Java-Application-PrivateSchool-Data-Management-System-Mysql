@@ -34,7 +34,7 @@ public class Course implements ICourse{
     }
 
     @Override
-    public TitleName getTitle() {
+    public TitleName getTitleName() {
         return title;
     }
 

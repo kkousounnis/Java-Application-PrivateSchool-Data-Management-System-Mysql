@@ -114,6 +114,7 @@ public class WelcomeScreen {
                 clearConsole();
                 ud.showSudents();
                 ControllerData.showStudents();
+                pressAnyKeyToContinue();
                 studentMenu();
                 break;
             case 3:

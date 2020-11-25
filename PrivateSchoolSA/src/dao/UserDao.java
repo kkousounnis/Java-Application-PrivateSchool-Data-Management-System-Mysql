@@ -8,6 +8,7 @@ import java.sql.Statement;
 import models.AddDataLists;
 import models.ControllerData;
 import models.ConvertDateLong;
+import models.Course;
 import models.Student;
 import util.DbUtil;
 
@@ -26,7 +27,7 @@ public class UserDao {
 
     }
 
-    public void addDbStudents(Student s) {
+    public static void addDbStudents(Student s) {
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
@@ -52,6 +53,33 @@ public class UserDao {
             e.printStackTrace();
         }
     }
+    
+    public static void addDbCourses(Course c){
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+
+            preparedStatement = connection.prepareStatement(
+                    "INSERT INTO `courses`"
+                    + "(`title`,"
+                    + "`stream`,"
+                    + " `type`,"
+                    + " `startdate`,"
+                    + " `enddate`)"         
+                    + " VALUES (?,?,?,?,?)");
+
+            preparedStatement.setObject(1, String.valueOf(c.getTitleName()));
+            preparedStatement.setString(2, c.getStream());
+            preparedStatement.setString(3, c.getType() ? "Fulltime" : "Parttime");
+            preparedStatement.setObject(4,ConvertDateLong.convertLongToDataBaesFormat(c.getStartDate()));                     
+            preparedStatement.setObject(5,ConvertDateLong.convertLongToDataBaesFormat(c.getEndDate()));
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void showSudents() {
         Student s;
@@ -67,7 +95,8 @@ public class UserDao {
                 s = new Student(
                         rs.getString("firstname"),
                         rs.getString("lastname"),
-                        ConvertDateLong.convertDbDate(rs.getDate("dateofbirth")),
+                        ConvertDateLong.convertDbDate(
+                                rs.getDate("dateofbirth")),
                         rs.getInt("tuitionfees"));
                 if (rs.getInt("Sid") > AddDataLists.getArrStudent().size()) {
                     AddDataLists.AddStudentsLists(s);

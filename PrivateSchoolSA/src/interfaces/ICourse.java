@@ -4,7 +4,7 @@ import models.TitleName;
 
 public interface ICourse {
 
-    public TitleName getTitle();
+    public TitleName getTitleName();
 
     public String getStream();
 

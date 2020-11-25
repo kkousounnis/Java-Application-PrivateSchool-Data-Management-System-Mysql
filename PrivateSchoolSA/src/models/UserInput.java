@@ -10,13 +10,12 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class UserInput {
-    
+   
     UserInput() {
 
     }
 
     public static void manualStudentsLists() {
-        UserDao dao = new UserDao();
         WelcomeScreen.clearConsole();
         Scanner sc = new Scanner(System.in);
         Person p = new Person();
@@ -56,12 +55,12 @@ public class UserInput {
 
         }
         
-        dao.addDbStudents(s);
+        UserDao.addDbStudents(s);
         
 
     }
 
-    public static void manualCourseList() {
+    public static void manualCourseList() { 
         Scanner sc = new Scanner(System.in);
         char tmp;
         TitleName t1;
@@ -106,8 +105,9 @@ public class UserInput {
             c.setEndDate(checkMultipleDateInput(course[4]));
 
         }
-
-        AddDataLists.AddCourseList(c);
+        UserDao.addDbCourses(c);
+        //AddDataLists.AddCourseList(c);
+        
 
     }
 
