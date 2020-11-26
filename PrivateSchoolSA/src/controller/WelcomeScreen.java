@@ -22,6 +22,11 @@ public class WelcomeScreen {
         this.choice = checkIntegerInput(2);
         switch (this.choice) {
             case 1:
+                UserDao.takeCoursesDb();
+                UserDao.takeSudentsDb();
+                UserDao.takeTrainersDb();
+                UserDao.takeAssignmentsDb();
+                
                 mainMenu();
                 break;
             case 2:
@@ -81,7 +86,11 @@ public class WelcomeScreen {
                 courseMenu();
                 break;
             case 3:
+                //To do here i must call the proper query
+                UserDao.takeFromDbStudentsPerCourse();
+                pressAnyKeyToContinue();
                 ControllerData.showStudentsPCourse();
+                pressAnyKeyToContinue();
                 courseMenu();
                 break;
             case 4:
@@ -116,7 +125,7 @@ public class WelcomeScreen {
                 break;
             case 2:
                 clearConsole();
-                UserDao.showSudents();
+                UserDao.takeSudentsDb();
                 ControllerData.showStudents();
                 pressAnyKeyToContinue();
                 studentMenu();
@@ -132,10 +141,12 @@ public class WelcomeScreen {
                     System.out.println("Please tell me to which course"
                             + " will the student attend please type number of course.");
                     courseIndex = checkIntegerInput(AddDataLists.getArrCourse().size());
-                    ControllerData.setStudentsPCourse(AddDataLists.getArrCourse().get(courseIndex - 1),
-                            AddDataLists.getArrStudent().get(studentIndex - 1));
-                    ControllerData.setCoursesPStudent(
-                            AddDataLists.getArrStudent().get(studentIndex - 1), AddDataLists.getArrCourse().get(courseIndex - 1));
+                    
+                    UserDao.addDbStudentsPerCourse(courseIndex, studentIndex);
+//                    ControllerData.setStudentsPCourse(AddDataLists.getArrCourse().get(courseIndex - 1),
+//                            AddDataLists.getArrStudent().get(studentIndex - 1));
+//                    ControllerData.setCoursesPStudent(
+//                            AddDataLists.getArrStudent().get(studentIndex - 1), AddDataLists.getArrCourse().get(courseIndex - 1));
                 } else {
                     System.out.println("\n---No courses have been assigned yet.---\n");
                 }
@@ -235,7 +246,7 @@ public class WelcomeScreen {
     public void assignmentMenu() {
 
         showAssignmentMenu();
-        //i assigned to 3 because i only 1,2,3,4 choices 
+        //i assigned to 3 because i only 1,2,3,4,5,6 choices 
         this.choice = checkIntegerInput(6);
         switch (this.choice) {
             case 1:
@@ -318,20 +329,20 @@ public class WelcomeScreen {
     public void showCourseMenu() {
         System.out.println("       Course Menu      ");
         System.out.println("Please choose how would you like to proceed");
-        System.out.println("1: Course Manualy create.");
-        System.out.println("2: Show all courses.");
-        System.out.println("3: Show students per course.");
-        System.out.println("4: Show trainers per course.");
-        System.out.println("5: Show assignments per course.");
+        System.out.println("1: Course Manualy create and insert to Database.");
+        System.out.println("2: Show a list of all courses.");
+        System.out.println("3: Show all students per course.");
+        System.out.println("4: Show all trainers per course.");
+        System.out.println("5: Show all assignments per course.");
         System.out.println("6: Return.");
     }
 
     public void showStudentMenu() {
         System.out.println("       Student Menu      ");
         System.out.println("Please choose how would you like to proceed");
-        System.out.println("1: Create Manually student.");
-        System.out.println("2: Show all students.");
-        System.out.println("3: Choose student which lessons will attend.");
+        System.out.println("1: Create Manually student and insert to Database.");
+        System.out.println("2: Show a list of all the students.");
+        System.out.println("3: Assign students per course.");
         System.out.println("4: Show student assignments");
         System.out.println("5: Show students who attend in"
                 + " more than one course.");
@@ -341,18 +352,19 @@ public class WelcomeScreen {
     void showTrainerMenu() {
         System.out.println("       Trainer Menu      ");
         System.out.println("Please choos how would you like to proceed.");
-        System.out.println("1: Create Manually trainer.");
+        System.out.println("1: Create Manually trainer and insert to Database.");
         System.out.println("2: Show all trainers");
-        System.out.println("3: Choose trainer which course teaches.");
+        System.out.println("3: Assign trainers per course.");
         System.out.println("4: Return.");
     }
 
     public void showAssignmentMenu() {
         System.out.println("       Assignment Menu      ");
         System.out.println("Please choose how would you like to proceed");
-        System.out.println("1: Create manually assignment.");
+        System.out.println("1: Create manually assignment and insert to"
+                + "Database.");
         System.out.println("2: Show all assignments.");
-        System.out.println("3: Choose course for assignment.");
+        System.out.println("3: Assign assignments per student per course.");
         System.out.println("4: Give date and show students with"
                 + " all relevant student assignments.");
         System.out.println("5: Return.");

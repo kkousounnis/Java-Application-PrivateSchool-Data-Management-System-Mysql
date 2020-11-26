@@ -45,7 +45,8 @@ public class UserDao {
             preparedStatement.setInt(4, s.getTuitionFees());
 
             preparedStatement.executeUpdate();
-
+            System.out.println("Value of sstudent succesfully inserted "
+                    + "to Database.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,7 +78,8 @@ public class UserDao {
                             c.getEndDate()));
 
             preparedStatement.executeUpdate();
-
+            System.out.println("Value of course succesfully inserted "
+                    + "to Database.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -101,7 +103,8 @@ public class UserDao {
             preparedStatement.setString(3, t.getSubject());
 
             preparedStatement.executeUpdate();
-
+            System.out.println("Value of trainer succesfully inserted "
+                    + "to Database.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -131,14 +134,15 @@ public class UserDao {
             preparedStatement.setInt(5, a.getTotalMark());
 
             preparedStatement.executeUpdate();
-
+            System.out.println("Value of assignment succesfully inserted "
+                    + "to Database.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     //take from database students
-    public static void showSudents() {
+    public static void takeSudentsDb() {
         Student s;
         Statement statement = null;
         ResultSet rs = null;
@@ -174,14 +178,13 @@ public class UserDao {
     //take from database courses
     public static void takeCoursesDb() {
         Course c;
-        TitleName titlename;
         Statement statement = null;
         ResultSet rs = null;
         try {
             statement = connection.createStatement();
 
             rs = statement.executeQuery("SELECT * FROM `courses`");
-            while (rs.next()) { 
+            while (rs.next()) {
                 c = new Course(
                         new TitleName(rs.getString("title")),
                         rs.getString("stream"),
@@ -204,6 +207,7 @@ public class UserDao {
             se.printStackTrace();
         }
     }
+
     //take from database trainers
     public static void takeTrainersDb() {
         Trainer t;
@@ -233,9 +237,9 @@ public class UserDao {
             se.printStackTrace();
         }
     }
-    
+
     //take from database Assignments    
-    public static void takeAssignmentsDb(){
+    public static void takeAssignmentsDb() {
         Assignment a;
         Statement statement = null;
         ResultSet rs = null;
@@ -258,6 +262,90 @@ public class UserDao {
                 if (rs.getInt("Aid") > AddDataLists.getArrAssignment().size()) {
                     AddDataLists.AddAssignment(a);
                 }
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
+
+    //Insert to Database Students per Course
+    public static void addDbStudentsPerCourse(int courseid, int studentid) {
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+
+            preparedStatement = connection.prepareStatement(
+                    "INSERT INTO `studentspercourses`"
+                    + "(`id_course`,"
+                    + "`id_student`)"
+                    + " VALUES (?,?)");
+
+            preparedStatement.setInt(1, courseid);
+            preparedStatement.setInt(2, studentid);
+
+            preparedStatement.executeUpdate();
+            System.out.println("Assignment of students per course succesfully "
+                    + "inserted to Database.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Show students per Course from Database
+    public static void takeFromDbStudentsPerCourse() {
+        Student student;
+        Course course = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        int tmpcourseid = 0;
+        try {
+            statement = connection.createStatement();
+
+            rs = statement.executeQuery(
+                    "SELECT "
+                    + "    `courses`.`Cid`,"
+                    + "    `courses`.`title`,"
+                    + "    `courses`.`stream`,"
+                    + "    `courses`.`type`,"
+                    + "     `courses`.`startdate`,"
+                    + "     `courses`.`enddate`,"
+                    + "    `students`.`firstname`,"
+                    + "    `students`.`lastname`,"
+                    + "    `students`.`dateofbirth`,"
+                    + "    `students`.`tuitionfees`"
+                    + "FROM"
+                    + "    `studentspercourses`"
+                    + "        INNER JOIN"
+                    + "    `students` ON `students`.`Sid` = `studentspercourses`.`id_student`"
+                    + "        INNER JOIN"
+                    + "    `courses` ON `courses`.`Cid` = `studentspercourses`.`id_course`"
+                    + "ORDER BY `courses`.`Cid`;");
+            while (rs.next()) {
+
+                if ((tmpcourseid != rs.getInt("Cid")) || tmpcourseid == 0) {
+                    course = new Course(
+                            new TitleName(rs.getString("title")),
+                            rs.getString("stream"),
+                            (rs.getString("type").charAt(0) == 'F') ? true : false,
+                            ConvertDateLong.convertDbDate(
+                                    rs.getDate("startdate")),
+                            ConvertDateLong.convertDbDate(
+                                    rs.getDate("enddate")));
+
+                    System.out.println("\n" + course);
+
+                    tmpcourseid = rs.getInt("Cid");
+                }
+
+                student = new Student(
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
+                        ConvertDateLong.convertDbDate(
+                                rs.getDate("dateofbirth")),
+                        rs.getInt("tuitionfees"));
+
+                System.out.print(student);
+                //ControllerData.setStudentsPCourse(c,s);
             }
         } catch (SQLException se) {
             se.printStackTrace();
