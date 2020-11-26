@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import models.AddDataLists;
 import models.Assignment;
-import models.ControllerData;
 import models.ConvertDateLong;
 import models.Course;
 import models.Student;
@@ -291,8 +290,54 @@ public class UserDao {
         }
     }
 
+    //Insert to Database Trainers per Course
+    public static void addTrainersPerCourse(int courseid, int trainerid) {
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+
+            preparedStatement = connection.prepareStatement(
+                    "INSERT INTO `trainerspercourse`"
+                    + "(`id_course`,"
+                    + "`id_trainer`)"
+                    + " VALUES (?,?)");
+
+            preparedStatement.setInt(1, courseid);
+            preparedStatement.setInt(2, trainerid);
+
+            preparedStatement.executeUpdate();
+            System.out.println("Assignment of trainers per course succesfully "
+                    + "inserted to Database.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Insert to Database Assignments per Course Per Student
+    public static void addAssignmentsPerCoursePerStudent(int courseid, int assignmentid) {
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+
+            preparedStatement = connection.prepareStatement(
+                    "INSERT INTO `assignmentspercourse`"
+                    + "(`id_course`,"
+                    + "`id_assignment`)"
+                    + " VALUES (?,?)");
+
+            preparedStatement.setInt(1, courseid);
+            preparedStatement.setInt(2, assignmentid);
+
+            preparedStatement.executeUpdate();
+            System.out.println("Assignment of assignments per course succesfully "
+                    + "inserted to Database.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     //Show students per Course from Database
-    public static void takeFromDbStudentsPerCourse() {
+    public static void showFromDbStudentsPerCourse() {
         Student student;
         Course course = null;
         Statement statement = null;
@@ -345,10 +390,67 @@ public class UserDao {
                         rs.getInt("tuitionfees"));
 
                 System.out.print(student);
-                //ControllerData.setStudentsPCourse(c,s);
             }
         } catch (SQLException se) {
             se.printStackTrace();
         }
     }
+
+    //Show trainers per Course from Database
+    public static void showFromDbTrainersPerCourse() {
+        Trainer trainer;
+        Course course = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        int tmpcourseid = 0;
+        try {
+            statement = connection.createStatement();
+
+            rs = statement.executeQuery(
+                       "SELECT "
+                    + "    `courses`.`Cid`,"
+                    + "    `courses`.`title`,"
+                    + "    `courses`.`stream`,"
+                    + "    `courses`.`type`,"
+                    + "    `courses`.`startdate`,"
+                    + "    `courses`.`enddate`,"
+                    + "    `trainers`.`firstname`,"
+                    + "    `trainers`.`lastname`,"
+                    + "    `trainers`.`subject`"
+                    + "FROM"
+                    + "    `trainerspercourse`"
+                    + "        INNER JOIN"
+                    + "    `trainers` ON `trainers`.`Tid` = `trainerspercourse`.`id_trainer`"
+                    + "        INNER JOIN"
+                    + "    `courses` ON `courses`.`Cid` = `trainerspercourse`.`id_course`"
+                    + "ORDER BY `courses`.`Cid`;");
+            while (rs.next()) {
+
+                if ((tmpcourseid != rs.getInt("Cid")) || tmpcourseid == 0) {
+                    course = new Course(
+                            new TitleName(rs.getString("title")),
+                            rs.getString("stream"),
+                            (rs.getString("type").charAt(0) == 'F') ? true : false,
+                            ConvertDateLong.convertDbDate(
+                                    rs.getDate("startdate")),
+                            ConvertDateLong.convertDbDate(
+                                    rs.getDate("enddate")));
+
+                    System.out.println("\n" + course);
+
+                    tmpcourseid = rs.getInt("Cid");
+                }
+
+                trainer = new Trainer(
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
+                        rs.getString("subject"));
+
+                System.out.print(trainer);
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
+
 }

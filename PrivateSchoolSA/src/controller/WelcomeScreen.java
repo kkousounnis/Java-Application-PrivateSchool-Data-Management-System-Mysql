@@ -8,7 +8,6 @@ public class WelcomeScreen {
 
     public Scanner scan = new Scanner(System.in);
     private int choice = 0;
-    
 
     public WelcomeScreen() {
 
@@ -26,7 +25,7 @@ public class WelcomeScreen {
                 UserDao.takeSudentsDb();
                 UserDao.takeTrainersDb();
                 UserDao.takeAssignmentsDb();
-                
+
                 mainMenu();
                 break;
             case 2:
@@ -87,9 +86,7 @@ public class WelcomeScreen {
                 break;
             case 3:
                 //To do here i must call the proper query
-                UserDao.takeFromDbStudentsPerCourse();
-                pressAnyKeyToContinue();
-                ControllerData.showStudentsPCourse();
+                UserDao.showFromDbStudentsPerCourse();
                 pressAnyKeyToContinue();
                 courseMenu();
                 break;
@@ -141,7 +138,7 @@ public class WelcomeScreen {
                     System.out.println("Please tell me to which course"
                             + " will the student attend please type number of course.");
                     courseIndex = checkIntegerInput(AddDataLists.getArrCourse().size());
-                    
+
                     UserDao.addDbStudentsPerCourse(courseIndex, studentIndex);
 //                    ControllerData.setStudentsPCourse(AddDataLists.getArrCourse().get(courseIndex - 1),
 //                            AddDataLists.getArrStudent().get(studentIndex - 1));
@@ -228,8 +225,8 @@ public class WelcomeScreen {
                     System.out.println("Please tell me to which course"
                             + " will the trainer attend please type number of course.");
                     int courseIndex = checkIntegerInput(AddDataLists.getArrCourse().size());
-                    ControllerData.setTrainersPCourse(AddDataLists.getArrCourse().get(courseIndex - 1),
-                            AddDataLists.getArrTrainer().get(trainerIndex - 1));
+
+                    UserDao.addTrainersPerCourse(courseIndex, trainerIndex);
                 } else {
                     System.out.println("\n---No courses have been assigned yet.---\n");
                 }
@@ -268,13 +265,16 @@ public class WelcomeScreen {
                     ControllerData.showAssignments();
                     System.out.println("Please specify trainer "
                             + " from List by typing number");
-                    int assignmentIndex = checkIntegerInput(AddDataLists.getArrAssignment().size());
+                    int assignmentIndex = checkIntegerInput(
+                            AddDataLists.getArrAssignment().size());
                     ControllerData.showCourses();
                     System.out.println("Please tell me to which course"
                             + " will the assignmetn attend please type number of course.");
-                    int courseIndex = checkIntegerInput(AddDataLists.getArrCourse().size());
-                    ControllerData.setAssignmentsPCourse(AddDataLists.getArrCourse().get(courseIndex - 1),
-                            AddDataLists.getArrAssignment().get(assignmentIndex - 1));
+                    int courseIndex = checkIntegerInput(
+                            AddDataLists.getArrCourse().size());
+
+                    UserDao.addAssignmentsPerCoursePerStudent(
+                            courseIndex, assignmentIndex);
                 } else {
                     System.out.println("\n---No courses have been assigned yet.---\n");
                 }
