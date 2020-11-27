@@ -79,7 +79,7 @@ public class WelcomeScreen {
                 break;
             case 2:
                 UserDao.takeCoursesDb();
-                ControllerData.showCourses();
+                PrintListData.showCourses();
                 pressAnyKeyToContinue();
                 courseMenu();
                 break;
@@ -124,18 +124,18 @@ public class WelcomeScreen {
             case 2:
                 clearConsole();
                 UserDao.takeSudentsDb();
-                ControllerData.showStudents();
+                PrintListData.showStudents();
                 pressAnyKeyToContinue();
                 studentMenu();
                 break;
             case 3:
                 clearConsole();
                 if (AddDataLists.getArrCourse().size() > 0) {
-                    ControllerData.showStudents();
+                    PrintListData.showStudents();
                     System.out.println("Please specify student "
                             + " from List by typing number");
                     studentIndex = checkIntegerInput(AddDataLists.getArrStudent().size());
-                    ControllerData.showCourses();
+                    PrintListData.showCourses();
                     System.out.println("Please tell me to which course"
                             + " will the student attend please type number of course.");
                     courseIndex = checkIntegerInput(AddDataLists.getArrCourse().size());
@@ -169,7 +169,7 @@ public class WelcomeScreen {
                 } else {
                     System.out.println("\n---No multiple courses have"
                             + " been assigned yet.---\n");
-                    ControllerData.showCourses();
+                    PrintListData.showCourses();
                     System.out.println("We must have more than two"
                             + " courses assigned.\n");
                     System.out.println(" PLease go to course menu"
@@ -203,18 +203,18 @@ public class WelcomeScreen {
             case 2:
                 clearConsole();
                 UserDao.takeTrainersDb();
-                ControllerData.showTrainers();
+                PrintListData.showTrainers();
                 pressAnyKeyToContinue();
                 trainerMenu();
                 break;
             case 3:
                 clearConsole();
                 if (AddDataLists.getArrCourse().size() > 0) {
-                    ControllerData.showTrainers();
+                    PrintListData.showTrainers();
                     System.out.println("Please specify trainer "
                             + " from List by typing number");
                     int trainerIndex = checkIntegerInput(AddDataLists.getArrTrainer().size());
-                    ControllerData.showCourses();
+                    PrintListData.showCourses();
                     System.out.println("Please tell me to which course"
                             + " will the trainer attend please type number of course.");
                     int courseIndex = checkIntegerInput(AddDataLists.getArrCourse().size());
@@ -248,19 +248,19 @@ public class WelcomeScreen {
             case 2:
                 clearConsole();
                 UserDao.takeAssignmentsDb();
-                ControllerData.showAssignments();
+                PrintListData.showAssignments();
                 pressAnyKeyToContinue();
                 assignmentMenu();
                 break;
             case 3:
                 clearConsole();
                 if (AddDataLists.getArrCourse().size() > 0) {
-                    ControllerData.showAssignments();
+                    PrintListData.showAssignments();
                     System.out.println("Please specify trainer "
                             + " from List by typing number");
                     int assignmentIndex = checkIntegerInput(
                             AddDataLists.getArrAssignment().size());
-                    ControllerData.showCourses();
+                    PrintListData.showCourses();
                     System.out.println("Please tell me to which course"
                             + " will the assignmetn attend please type number of course.");
                     int courseIndex = checkIntegerInput(
