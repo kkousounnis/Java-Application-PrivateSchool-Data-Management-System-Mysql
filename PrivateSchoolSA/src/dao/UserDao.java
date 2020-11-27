@@ -44,7 +44,7 @@ public class UserDao {
             preparedStatement.setInt(4, s.getTuitionFees());
 
             preparedStatement.executeUpdate();
-            System.out.println("Value of sstudent succesfully inserted "
+            System.out.println("Student succesfully inserted "
                     + "to Database.");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,7 +77,7 @@ public class UserDao {
                             c.getEndDate()));
 
             preparedStatement.executeUpdate();
-            System.out.println("Value of course succesfully inserted "
+            System.out.println("Course succesfully inserted "
                     + "to Database.");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,7 +102,7 @@ public class UserDao {
             preparedStatement.setString(3, t.getSubject());
 
             preparedStatement.executeUpdate();
-            System.out.println("Value of trainer succesfully inserted "
+            System.out.println("Trainer succesfully inserted "
                     + "to Database.");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,7 +133,7 @@ public class UserDao {
             preparedStatement.setInt(5, a.getTotalMark());
 
             preparedStatement.executeUpdate();
-            System.out.println("Value of assignment succesfully inserted "
+            System.out.println("Assignment succesfully inserted "
                     + "to Database.");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -526,7 +526,7 @@ public class UserDao {
             statement = connection.createStatement();
 
             rs = statement.executeQuery(
-                      "SELECT "
+                    "SELECT "
                     + "    `assignmentspercourse`.`id_assignment`,"
                     + "    `assignments`.`title` AS `assignmenttile`,"
                     + "    `assignments`.`description`,"
@@ -554,21 +554,21 @@ public class UserDao {
                     + "    `students` ON `students`.`Sid` = `studentspercourses`.`id_student`"
                     + "ORDER BY `courses`.`Cid` , `students`.`Sid` , `assignments`.`Aid`;");
             while (rs.next()) {
-                
+
                 if ((tmpstudentid != rs.getInt("Sid")) || tmpstudentid == 0) {
                     student = new Student(
-                        rs.getString("firstname"),
-                        rs.getString("lastname"),
-                        ConvertDateLong.convertDbDate(
-                                rs.getDate("dateofbirth")),
-                        rs.getInt("tuitionfees"));
+                            rs.getString("firstname"),
+                            rs.getString("lastname"),
+                            ConvertDateLong.convertDbDate(
+                                    rs.getDate("dateofbirth")),
+                            rs.getInt("tuitionfees"));
                     System.out.println("\n\n" + student);
-                    
+
                     tmpstudentid = rs.getInt("Sid");
                     tmpcourseid = 0;
                 }
                 if ((tmpcourseid != rs.getInt("Cid")) || tmpcourseid == 0) {
-                    
+
                     course = new Course(
                             new TitleName(rs.getString("coursetitle")),
                             rs.getString("stream"),
@@ -591,6 +591,41 @@ public class UserDao {
                 System.out.print(assignment);
             }
             System.out.println("");
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
+
+    //Show assignments per Course from Database
+    public static void showStudentsMultipleCourses() {
+
+        Statement statement = null;
+        ResultSet rs = null;
+        int tmpcourseid = 0;
+        int tmpstudentid = 0;
+        try {
+            statement = connection.createStatement();
+
+            rs = statement.executeQuery(
+                    "SELECT "
+                    + "    `students`.`Sid` AS `Student_ID`,"
+                    + "    `students`.`firstname` AS `First_Name`,"
+                    + "    `students`.`lastname` AS `Last_Name`,"
+                    + "    COUNT(`studentspercourses`.`id_student`) AS `HowManyCourses`"
+                    + "FROM"
+                    + "    `studentspercourses`"
+                    + "        INNER JOIN"
+                    + "    `students` ON `students`.`Sid` = `studentspercourses`.`id_student`"
+                    + "GROUP BY `studentspercourses`.`id_student`"
+                    + "HAVING `HowManyCourses` > 1;");
+            while (rs.next()) {
+
+                System.out.println("{ Student_Id:" + rs.getString("Student_ID")
+                        + ", Firstname:" + rs.getString("First_Name")
+                        + ", Lastname:" + rs.getString("Last_Name")
+                        + "," +" Courses:"+rs.getInt("HowManyCourses"));
+
+            }
         } catch (SQLException se) {
             se.printStackTrace();
         }

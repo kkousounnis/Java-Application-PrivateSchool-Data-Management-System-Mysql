@@ -6,18 +6,15 @@ public class Student extends Person implements IStudent{
 
     private long dateOfBirth;
     private int tuitionFees;
-    public CoursesPStudent coursesPStudent;
 
     public Student(String firstName, String lastName) {
         super(firstName, lastName);
-        this.coursesPStudent = new CoursesPStudent();
     }
 
     public Student(String firstName, String lastName, long dateOfBirth, int tuitionFees) {
         super(firstName, lastName);
         this.dateOfBirth = dateOfBirth;
         this.tuitionFees = tuitionFees;
-        this.coursesPStudent = new CoursesPStudent();
     }
 
     @Override

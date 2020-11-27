@@ -2,22 +2,16 @@ package models;
 
 import interfaces.ICourse;
 
-public class Course implements ICourse{
+public class Course implements ICourse {
 
     private TitleName title;
     private String stream;
     private boolean type;
     private long startDate;
     private long endDate;
-    public StudentsPCourse studentsPerCourse;
-    public TrainersPCourse trainerPerCourse;
-    public AssignmentsPCourse assignmentPerCourse;
 
     public Course(TitleName title) {
         this.title = title;
-        this.studentsPerCourse = new StudentsPCourse();
-        this.trainerPerCourse = new TrainersPCourse();
-        this.assignmentPerCourse = new AssignmentsPCourse();
     }
 
     public Course(TitleName title, String stream, boolean type,
@@ -27,9 +21,6 @@ public class Course implements ICourse{
         this.type = type;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.studentsPerCourse = new StudentsPCourse();
-        this.trainerPerCourse = new TrainersPCourse();
-        this.assignmentPerCourse = new AssignmentsPCourse();
 
     }
 

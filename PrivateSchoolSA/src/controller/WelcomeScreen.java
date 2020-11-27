@@ -17,7 +17,7 @@ public class WelcomeScreen {
     public void Menu() {
         clearConsole();
         showWelcomeMenu();
-        //i assigned to 3 because i only 1,2 choices 
+        //i assigned to 2 because i only 1,2 choices 
         this.choice = checkIntegerInput(2);
         switch (this.choice) {
             case 1:
@@ -25,7 +25,6 @@ public class WelcomeScreen {
                 UserDao.takeSudentsDb();
                 UserDao.takeTrainersDb();
                 UserDao.takeAssignmentsDb();
-
                 mainMenu();
                 break;
             case 2:
@@ -37,7 +36,7 @@ public class WelcomeScreen {
     public void mainMenu() {
         clearConsole();
         showMainMenu();
-        //i assigned to 3 because i only 1,2,3,4,5 choices 
+        //i assigned to 6 because i only 1,2,3,4,5,6 choices 
         this.choice = checkIntegerInput(6);
         switch (this.choice) {
             case 1:
@@ -70,7 +69,7 @@ public class WelcomeScreen {
     public void courseMenu() {
 
         showCourseMenu();
-        //i assigned to 3 because i only 1,2,3,4,5,6 choices 
+        //i assigned to 6 because i only 1,2,3,4,5,6 choices 
         this.choice = checkIntegerInput(6);
         switch (this.choice) {
             case 1:
@@ -111,7 +110,7 @@ public class WelcomeScreen {
     public void studentMenu() {
 
         showStudentMenu();
-        //i assigned to 3 because i only 1,2,3,4,5,6 choices 
+        //i assigned to 6 because i only 1,2,3,4,5,6 choices 
         int courseIndex;
         int studentIndex;
         this.choice = checkIntegerInput(6);
@@ -142,10 +141,7 @@ public class WelcomeScreen {
                     courseIndex = checkIntegerInput(AddDataLists.getArrCourse().size());
 
                     UserDao.addDbStudentsPerCourse(courseIndex, studentIndex);
-//                    ControllerData.setStudentsPCourse(AddDataLists.getArrCourse().get(courseIndex - 1),
-//                            AddDataLists.getArrStudent().get(studentIndex - 1));
-//                    ControllerData.setCoursesPStudent(
-//                            AddDataLists.getArrStudent().get(studentIndex - 1), AddDataLists.getArrCourse().get(courseIndex - 1));
+
                 } else {
                     System.out.println("\n---No courses have been assigned yet.---\n");
                 }
@@ -154,28 +150,21 @@ public class WelcomeScreen {
             case 4:
                 clearConsole();
                 
-                if (AddDataLists.getArrStudent().size() > 0) {
-//                    ControllerData.showStudents();
-//                    System.out.println("Please specify student from List"
-//                            + "  in order to see his assignments "
-//                            + "by typing number");
-//                    studentIndex = checkIntegerInput(AddDataLists.getArrStudent().size());
-//                    System.out.println("Assignments");
-//                    ControllerData.showStudentAssignments(AddDataLists.getArrStudent().get(studentIndex - 1));
-
+                if (AddDataLists.getArrStudent().size() > 0) {         
                       UserDao.showFromDbAssignmentssPerCoursePerStudent();
                 } else {
                     System.out.println("\n---No student list"
                             + " have been assigned yet.---\n");
                 }
+                pressAnyKeyToContinue();
                 studentMenu();
                 break;
 
             case 5:
                 clearConsole();
                 if (AddDataLists.getArrCourse().size() > 1) {
-                    // show students who attend in more than one course                
-                    ControllerData.showStudentsMultipleCourses();
+                    // show students who attend in more than one course
+                    UserDao.showStudentsMultipleCourses();
                     System.out.println("");
                 } else {
                     System.out.println("\n---No multiple courses have"
@@ -188,6 +177,7 @@ public class WelcomeScreen {
                             + " to student menu and assign students to more"
                             + " than one course");
                 }
+                pressAnyKeyToContinue();
                 studentMenu();
                 break;
             case 6:
@@ -246,8 +236,8 @@ public class WelcomeScreen {
     public void assignmentMenu() {
 
         showAssignmentMenu();
-        //i assigned to 3 because i only 1,2,3,4,5,6 choices 
-        this.choice = checkIntegerInput(6);
+        //i assigned to 4 because i only 1,2,3,4 choices 
+        this.choice = checkIntegerInput(4);
         switch (this.choice) {
             case 1:
                 clearConsole();
@@ -284,16 +274,6 @@ public class WelcomeScreen {
                 assignmentMenu();
                 break;
             case 4:
-                clearConsole();
-                //UserInput.getArrayCalendarWeekFromUserDate();
-                if (AddDataLists.getArrCourse().size() > 0) {
-                    ControllerData.showStudentsAssignmentsRelevantToGivenDate();
-                } else {
-                    System.out.println("\n---No courses have been assigned yet.---\n");
-                }
-                assignmentMenu();
-                break;
-            case 5:
                 clearConsole();
                 mainMenu();
                 break;
@@ -368,9 +348,7 @@ public class WelcomeScreen {
                 + "Database.");
         System.out.println("2: Show all assignments.");
         System.out.println("3: Assign assignments per student per course.");
-        System.out.println("4: Give date and show students with"
-                + " all relevant student assignments.");
-        System.out.println("5: Return.");
+        System.out.println("4: Return.");
 
     }
 

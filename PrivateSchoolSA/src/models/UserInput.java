@@ -70,10 +70,10 @@ public class UserInput {
             t1 = new TitleName(checkStringInputLength());
             c = new Course(t1);
             System.out.println("Please give the name of course");
-            c.setStream(checkStringInputLength()); 
+            c.setStream(checkStringInputLength());
             System.out.println("Please type (f) if it is FullTime"
                     + " or type (p) if it is PartTime");
-            tmp = sc.next().charAt(0); 
+            tmp = sc.next().charAt(0);
             c.setType(checkPartTimeFullTimeInput(tmp));
             System.out.println("Please give me the start date of the course");
             c.setStartDate(checkDateInput());
@@ -135,7 +135,7 @@ public class UserInput {
             t.setSubject(trainer[2]);
 
         }
-        
+
         UserDao.addDbTrainers(t);
     }
 
@@ -358,7 +358,6 @@ public class UserInput {
             } else {
                 validationSuccessful = true;
             }
-            System.out.println("The input is: " + input);
         } while (validationSuccessful == false);
         return input;
     }
