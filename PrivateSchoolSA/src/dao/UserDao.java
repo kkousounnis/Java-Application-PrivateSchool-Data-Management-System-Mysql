@@ -377,7 +377,7 @@ public class UserDao {
                             ConvertDateLong.convertDbDate(
                                     rs.getDate("enddate")));
 
-                    System.out.println("\n" + course);
+                    System.out.println("\n\n" + course);
 
                     tmpcourseid = rs.getInt("Cid");
                 }
@@ -391,6 +391,7 @@ public class UserDao {
 
                 System.out.print(student);
             }
+            System.out.println("");
         } catch (SQLException se) {
             se.printStackTrace();
         }
@@ -407,7 +408,7 @@ public class UserDao {
             statement = connection.createStatement();
 
             rs = statement.executeQuery(
-                       "SELECT "
+                    "SELECT "
                     + "    `courses`.`Cid`,"
                     + "    `courses`.`title`,"
                     + "    `courses`.`stream`,"
@@ -436,7 +437,7 @@ public class UserDao {
                             ConvertDateLong.convertDbDate(
                                     rs.getDate("enddate")));
 
-                    System.out.println("\n" + course);
+                    System.out.println("\n\n" + course);
 
                     tmpcourseid = rs.getInt("Cid");
                 }
@@ -448,6 +449,148 @@ public class UserDao {
 
                 System.out.print(trainer);
             }
+            System.out.println("");
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
+
+    //Show assignments per Course from Database
+    public static void showFromDbAssignmentssPerCourse() {
+        Assignment assignment;
+        Course course = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        int tmpcourseid = 0;
+        try {
+            statement = connection.createStatement();
+
+            rs = statement.executeQuery(
+                    "SELECT "
+                    + "    `courses`.`Cid`,"
+                    + "    `courses`.`title`,"
+                    + "    `courses`.`stream`,"
+                    + "    `courses`.`type`,"
+                    + "    `courses`.`startdate`,"
+                    + "    `courses`.`enddate`,"
+                    + "    `assignments`.`title`,"
+                    + "    `assignments`.`description`,"
+                    + "    `assignments`.`subdatetime`"
+                    + "FROM"
+                    + "    `assignmentspercourse`"
+                    + "        INNER JOIN"
+                    + "    `assignments` ON `assignments`.`Aid` = `assignmentspercourse`.`id_assignment`"
+                    + "        INNER JOIN"
+                    + "    `courses` ON `courses`.`Cid` = `assignmentspercourse`.`id_course`"
+                    + "ORDER BY `courses`.`Cid`;");
+            while (rs.next()) {
+
+                if ((tmpcourseid != rs.getInt("Cid")) || tmpcourseid == 0) {
+                    course = new Course(
+                            new TitleName(rs.getString("title")),
+                            rs.getString("stream"),
+                            (rs.getString("type").charAt(0) == 'F') ? true : false,
+                            ConvertDateLong.convertDbDate(
+                                    rs.getDate("startdate")),
+                            ConvertDateLong.convertDbDate(
+                                    rs.getDate("enddate")));
+
+                    System.out.println("\n\n" + course);
+
+                    tmpcourseid = rs.getInt("Cid");
+                }
+
+                assignment = new Assignment(
+                        new TitleName(rs.getString("title")),
+                        rs.getString("description"),
+                        ConvertDateLong.convertDbDate(rs.getDate("subdatetime")));
+
+                System.out.print(assignment);
+            }
+            System.out.println("");
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
+
+    //Show assignments per Course from Database
+    public static void showFromDbAssignmentssPerCoursePerStudent() {
+        Assignment assignment;
+        Student student = null;
+        Course course = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        int tmpcourseid = 0;
+        int tmpstudentid = 0;
+        try {
+            statement = connection.createStatement();
+
+            rs = statement.executeQuery(
+                      "SELECT "
+                    + "    `assignmentspercourse`.`id_assignment`,"
+                    + "    `assignments`.`title` AS `assignmenttile`,"
+                    + "    `assignments`.`description`,"
+                    + "    `assignments`.`subdatetime`,"
+                    + "    `courses`.`Cid`,"
+                    + "    `courses`.`title` AS `coursetitle`,"
+                    + "    `courses`.`stream`,"
+                    + "    `courses`.`type`,"
+                    + "    `courses`.`startdate`,"
+                    + "    `courses`.`enddate`,"
+                    + "    `students`.`Sid`,"
+                    + "    `students`.`firstname`,"
+                    + "    `students`.`lastname`,"
+                    + "    `students`.`dateofbirth`,"
+                    + "    `students`.`tuitionfees`"
+                    + "FROM"
+                    + "    `assignmentspercourse`"
+                    + "        INNER JOIN"
+                    + "    `assignments` ON `assignments`.`Aid` = `assignmentspercourse`.`id_assignment`"
+                    + "        INNER JOIN"
+                    + "    `courses` ON `courses`.`Cid` = `assignmentspercourse`.`id_course`"
+                    + "        INNER JOIN"
+                    + "    `studentspercourses` ON `studentspercourses`.`id_course` = `courses`.`Cid`"
+                    + "        INNER JOIN"
+                    + "    `students` ON `students`.`Sid` = `studentspercourses`.`id_student`"
+                    + "ORDER BY `courses`.`Cid` , `students`.`Sid` , `assignments`.`Aid`;");
+            while (rs.next()) {
+                
+                if ((tmpstudentid != rs.getInt("Sid")) || tmpstudentid == 0) {
+                    student = new Student(
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
+                        ConvertDateLong.convertDbDate(
+                                rs.getDate("dateofbirth")),
+                        rs.getInt("tuitionfees"));
+                    System.out.println("\n\n" + student);
+                    
+                    tmpstudentid = rs.getInt("Sid");
+                    tmpcourseid = 0;
+                }
+                if ((tmpcourseid != rs.getInt("Cid")) || tmpcourseid == 0) {
+                    
+                    course = new Course(
+                            new TitleName(rs.getString("coursetitle")),
+                            rs.getString("stream"),
+                            (rs.getString("type").charAt(0) == 'F') ? true : false,
+                            ConvertDateLong.convertDbDate(
+                                    rs.getDate("startdate")),
+                            ConvertDateLong.convertDbDate(
+                                    rs.getDate("enddate")));
+
+                    System.out.println(course);
+
+                    tmpcourseid = rs.getInt("Cid");
+                }
+
+                assignment = new Assignment(
+                        new TitleName(rs.getString("assignmenttile")),
+                        rs.getString("description"),
+                        ConvertDateLong.convertDbDate(rs.getDate("subdatetime")));
+
+                System.out.print(assignment);
+            }
+            System.out.println("");
         } catch (SQLException se) {
             se.printStackTrace();
         }

@@ -91,11 +91,13 @@ public class WelcomeScreen {
                 courseMenu();
                 break;
             case 4:
-                ControllerData.showTrainersPCourse();
+                UserDao.showFromDbTrainersPerCourse();
+                pressAnyKeyToContinue();
                 courseMenu();
                 break;
             case 5:
-                ControllerData.showAssignmentsPCourse();
+                UserDao.showFromDbAssignmentssPerCourse();
+                pressAnyKeyToContinue();
                 courseMenu();
                 break;
             case 6:
@@ -151,16 +153,17 @@ public class WelcomeScreen {
                 break;
             case 4:
                 clearConsole();
-                //assignment to do show student assignments
-                clearConsole();
+                
                 if (AddDataLists.getArrStudent().size() > 0) {
-                    ControllerData.showStudents();
-                    System.out.println("Please specify student from List"
-                            + "  in order to see his assignments "
-                            + "by typing number");
-                    studentIndex = checkIntegerInput(AddDataLists.getArrStudent().size());
-                    System.out.println("Assignments");
-                    ControllerData.showStudentAssignments(AddDataLists.getArrStudent().get(studentIndex - 1));
+//                    ControllerData.showStudents();
+//                    System.out.println("Please specify student from List"
+//                            + "  in order to see his assignments "
+//                            + "by typing number");
+//                    studentIndex = checkIntegerInput(AddDataLists.getArrStudent().size());
+//                    System.out.println("Assignments");
+//                    ControllerData.showStudentAssignments(AddDataLists.getArrStudent().get(studentIndex - 1));
+
+                      UserDao.showFromDbAssignmentssPerCoursePerStudent();
                 } else {
                     System.out.println("\n---No student list"
                             + " have been assigned yet.---\n");
@@ -343,7 +346,7 @@ public class WelcomeScreen {
         System.out.println("1: Create Manually student and insert to Database.");
         System.out.println("2: Show a list of all the students.");
         System.out.println("3: Assign students per course.");
-        System.out.println("4: Show student assignments");
+        System.out.println("4: Show assignments per course per student");
         System.out.println("5: Show students who attend in"
                 + " more than one course.");
         System.out.println("6: Return.");
