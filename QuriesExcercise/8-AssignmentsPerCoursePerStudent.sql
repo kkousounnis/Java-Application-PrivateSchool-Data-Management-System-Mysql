@@ -23,7 +23,7 @@ FROM
         INNER JOIN
     `courses` ON `courses`.`Cid` = `assignmentspercourse`.`id_course`
         INNER JOIN
-    `studentspercourses` ON `studentspercourses`.`id_course` = `courses`.`Cid`
+    `studentspercourse` ON `studentspercourse`.`id_course` = `courses`.`Cid`
         INNER JOIN
-    `students` ON `students`.`Sid` = `studentspercourses`.`id_student`
+    `students` ON `students`.`Sid` = `studentspercourse`.`id_student`
 ORDER BY `courses`.`Cid` , `students`.`Sid` , `assignments`.`Aid`;

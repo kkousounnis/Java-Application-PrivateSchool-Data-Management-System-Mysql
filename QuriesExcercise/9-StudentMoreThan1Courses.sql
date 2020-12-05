@@ -6,10 +6,10 @@ SELECT
     `students`.`Sid` AS `Student_ID`,
     `students`.`firstname` AS `First_Name`,
     `students`.`lastname` AS `Last_Name`,
-    COUNT(`studentspercourses`.`id_student`) AS `HowManyCourses`
+    COUNT(`studentspercourse`.`id_student`) AS `HowManyCourses`
 FROM
-    `studentspercourses`
+    `studentspercourse`
         INNER JOIN
-    `students` ON `students`.`Sid` = `studentspercourses`.`id_student`
-GROUP BY `studentspercourses`.`id_student`
+    `students` ON `students`.`Sid` = `studentspercourse`.`id_student`
+GROUP BY `studentspercourse`.`id_student`
 HAVING `HowManyCourses` > 1;

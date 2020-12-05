@@ -10,9 +10,9 @@ SELECT
     `students`.`firstname` AS `Srudents_First_Name`,
     `students`.`lastname` AS `Students_Last_Name`
 FROM
-    `studentspercourses`
+    `studentspercourse`
         INNER JOIN
-    `students` ON `students`.`Sid` = `studentspercourses`.`id_student`
+    `students` ON `students`.`Sid` = `studentspercourse`.`id_student`
         INNER JOIN
-    `courses` ON `courses`.`Cid` = `studentspercourses`.`id_course`
+    `courses` ON `courses`.`Cid` = `studentspercourse`.`id_course`
 ORDER BY `courses`.`Cid`;
