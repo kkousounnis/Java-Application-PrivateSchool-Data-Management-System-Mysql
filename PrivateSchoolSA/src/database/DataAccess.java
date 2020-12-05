@@ -695,5 +695,13 @@ public class DataAccess {
             se.printStackTrace();
         }
     }
+    //close connection
+    public static void closeCon() {
+        try {
+            connection.close();            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

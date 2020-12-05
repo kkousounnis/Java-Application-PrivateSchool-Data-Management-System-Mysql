@@ -25,6 +25,7 @@ public class WelcomeScreen {
                 break;
             case 2:
                 System.out.println("Goodbey!!!");
+                DataAccess.closeCon();
                 break;
         }
     }
@@ -57,6 +58,7 @@ public class WelcomeScreen {
                 break;
             case 6:
                 System.out.println("Goodbey!!!");
+                DataAccess.closeCon();
                 break;
         }
 

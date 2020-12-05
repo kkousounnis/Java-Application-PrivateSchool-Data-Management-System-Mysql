@@ -7,13 +7,14 @@ public class DbUtil {
 
     private static Connection connection = null;
     private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost/privateschool";
+    private static final String DB_URL = "jdbc:mysql://localhost/privateschool"+
+                    "?useSSL=false&serverTimeZone=UTC";
     private static final String USER = "root";
     private static final String PASS = "password";
 
     public static Connection getConnection() {
 
-        try {            
+        try {
 
             System.out.println("Connecting to database...");
             connection = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -25,4 +26,5 @@ public class DbUtil {
         }
         return connection;
     }
+
 }
