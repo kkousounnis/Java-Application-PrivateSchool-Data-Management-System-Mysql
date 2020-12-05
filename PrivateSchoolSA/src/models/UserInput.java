@@ -1,7 +1,7 @@
 package models;
 
-import controller.WelcomeScreen;
-import dao.UserDao;
+import menu.WelcomeScreen;
+import database.DataAccess;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -55,7 +55,7 @@ public class UserInput {
 
         }
 
-        UserDao.addDbStudents(s);
+        DataAccess.addDbStudents(s);
 
     }
 
@@ -102,7 +102,7 @@ public class UserInput {
             c.setEndDate(checkMultipleDateInput(course[4]));
 
         }
-        UserDao.addDbCourses(c);
+        DataAccess.addDbCourses(c);
 
     }
 
@@ -136,7 +136,7 @@ public class UserInput {
 
         }
 
-        UserDao.addDbTrainers(t);
+        DataAccess.addDbTrainers(t);
     }
 
     public static void manualAssignment() {
@@ -184,7 +184,7 @@ public class UserInput {
             a.setDescription(s);
 
         }
-        UserDao.addDbAssignments(a);
+        DataAccess.addDbAssignments(a);
     }
 
     //------------

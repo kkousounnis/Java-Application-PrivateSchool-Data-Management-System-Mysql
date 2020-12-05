@@ -1,6 +1,6 @@
 package privateschool;
 
-import controller.WelcomeScreen;
+import menu.WelcomeScreen;
 
 public class PrivateSchoolSA {
 

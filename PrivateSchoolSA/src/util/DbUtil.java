@@ -13,9 +13,7 @@ public class DbUtil {
 
     public static Connection getConnection() {
 
-        try {
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
+        try {            
 
             System.out.println("Connecting to database...");
             connection = DriverManager.getConnection(DB_URL, USER, PASS);

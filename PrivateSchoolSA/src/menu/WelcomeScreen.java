@@ -1,6 +1,6 @@
-package controller;
+package menu;
 
-import dao.UserDao;
+import database.DataAccess;
 import java.util.Scanner;
 import models.*;
 
@@ -20,11 +20,7 @@ public class WelcomeScreen {
         //i assigned to 2 because i only 1,2 choices 
         this.choice = checkIntegerInput(2);
         switch (this.choice) {
-            case 1:
-                UserDao.takeCoursesDb();
-                UserDao.takeSudentsDb();
-                UserDao.takeTrainersDb();
-                UserDao.takeAssignmentsDb();
+            case 1: 
                 mainMenu();
                 break;
             case 2:
@@ -78,24 +74,23 @@ public class WelcomeScreen {
                 courseMenu();
                 break;
             case 2:
-                UserDao.takeCoursesDb();
-                PrintListData.showCourses();
+                DataAccess.selectCourses();                 
                 pressAnyKeyToContinue();
                 courseMenu();
                 break;
             case 3:
                 //To do here i must call the proper query
-                UserDao.showFromDbStudentsPerCourse();
+                DataAccess.showFromDbStudentsPerCourse();
                 pressAnyKeyToContinue();
                 courseMenu();
                 break;
             case 4:
-                UserDao.showFromDbTrainersPerCourse();
+                DataAccess.showFromDbTrainersPerCourse();
                 pressAnyKeyToContinue();
                 courseMenu();
                 break;
             case 5:
-                UserDao.showFromDbAssignmentssPerCourse();
+                DataAccess.showFromDbAssignmentssPerCourse();
                 pressAnyKeyToContinue();
                 courseMenu();
                 break;
@@ -108,7 +103,7 @@ public class WelcomeScreen {
     }
 
     public void studentMenu() {
-
+        
         showStudentMenu();
         //i assigned to 6 because i only 1,2,3,4,5,6 choices 
         int courseIndex;
@@ -122,25 +117,28 @@ public class WelcomeScreen {
                 studentMenu();
                 break;
             case 2:
-                clearConsole();
-                UserDao.takeSudentsDb();
-                PrintListData.showStudents();
+                //clearConsole();
+                DataAccess.selectSudents();
+                //PrintListData.showStudents();
                 pressAnyKeyToContinue();
                 studentMenu();
                 break;
             case 3:
                 clearConsole();
-                if (AddDataLists.getArrCourse().size() > 0) {
-                    PrintListData.showStudents();
+                //AddDataLists.getArrStudent().size()
+                if (DataAccess.selectCourses() > 0) {
+                    clearConsole();
+                    int length = DataAccess.selectSudents();
+                    //PrintListData.showStudents();
                     System.out.println("Please specify student "
                             + " from List by typing number");
-                    studentIndex = checkIntegerInput(AddDataLists.getArrStudent().size());
-                    PrintListData.showCourses();
+                    studentIndex = checkIntegerInput(length);
+                    length = DataAccess.selectCourses();
                     System.out.println("Please tell me to which course"
                             + " will the student attend please type number of course.");
-                    courseIndex = checkIntegerInput(AddDataLists.getArrCourse().size());
+                    courseIndex = checkIntegerInput(length);
 
-                    UserDao.addDbStudentsPerCourse(courseIndex, studentIndex);
+                    DataAccess.addDbStudentsPerCourse(courseIndex, studentIndex);
 
                 } else {
                     System.out.println("\n---No courses have been assigned yet.---\n");
@@ -150,8 +148,9 @@ public class WelcomeScreen {
             case 4:
                 clearConsole();
                 
-                if (AddDataLists.getArrStudent().size() > 0) {         
-                      UserDao.showFromDbAssignmentssPerCoursePerStudent();
+                if (DataAccess.selectSudents() > 0) {                     
+                      clearConsole();
+                      DataAccess.showFromDbAssignmentssPerCoursePerStudent();
                 } else {
                     System.out.println("\n---No student list"
                             + " have been assigned yet.---\n");
@@ -162,14 +161,15 @@ public class WelcomeScreen {
 
             case 5:
                 clearConsole();
-                if (AddDataLists.getArrCourse().size() > 1) {
+                if (DataAccess.selectCourses() > 1) {
                     // show students who attend in more than one course
-                    UserDao.showStudentsMultipleCourses();
+                    clearConsole();
+                    DataAccess.showStudentsMultipleCourses();
                     System.out.println("");
                 } else {
                     System.out.println("\n---No multiple courses have"
                             + " been assigned yet.---\n");
-                    PrintListData.showCourses();
+                    DataAccess.selectCourses();
                     System.out.println("We must have more than two"
                             + " courses assigned.\n");
                     System.out.println(" PLease go to course menu"
@@ -202,24 +202,25 @@ public class WelcomeScreen {
                 break;
             case 2:
                 clearConsole();
-                UserDao.takeTrainersDb();
-                PrintListData.showTrainers();
+                DataAccess.selectTrainers();
+                //PrintListData.showTrainers();
                 pressAnyKeyToContinue();
                 trainerMenu();
                 break;
             case 3:
                 clearConsole();
-                if (AddDataLists.getArrCourse().size() > 0) {
-                    PrintListData.showTrainers();
+                if (DataAccess.selectCourses() > 0) {
+                    clearConsole();
+                    int length = DataAccess.selectTrainers();
                     System.out.println("Please specify trainer "
                             + " from List by typing number");
-                    int trainerIndex = checkIntegerInput(AddDataLists.getArrTrainer().size());
-                    PrintListData.showCourses();
+                    int trainerIndex = checkIntegerInput(length);
+                    length = DataAccess.selectCourses();
                     System.out.println("Please tell me to which course"
                             + " will the trainer attend please type number of course.");
-                    int courseIndex = checkIntegerInput(AddDataLists.getArrCourse().size());
+                    int courseIndex = checkIntegerInput(length);
 
-                    UserDao.addTrainersPerCourse(courseIndex, trainerIndex);
+                    DataAccess.addTrainersPerCourse(courseIndex, trainerIndex);
                 } else {
                     System.out.println("\n---No courses have been assigned yet.---\n");
                 }
@@ -247,26 +248,25 @@ public class WelcomeScreen {
                 break;
             case 2:
                 clearConsole();
-                UserDao.takeAssignmentsDb();
-                PrintListData.showAssignments();
+                DataAccess.selectAssignments();
+                //PrintListData.showAssignments();
                 pressAnyKeyToContinue();
                 assignmentMenu();
                 break;
             case 3:
                 clearConsole();
-                if (AddDataLists.getArrCourse().size() > 0) {
-                    PrintListData.showAssignments();
-                    System.out.println("Please specify trainer "
+                if (DataAccess.selectCourses() > 0) {
+                    clearConsole();
+                    int length = DataAccess.selectAssignments();
+                    System.out.println("Please specify assignments "
                             + " from List by typing number");
-                    int assignmentIndex = checkIntegerInput(
-                            AddDataLists.getArrAssignment().size());
-                    PrintListData.showCourses();
+                    int assignmentIndex = checkIntegerInput(length);
+                    length = DataAccess.selectCourses();
                     System.out.println("Please tell me to which course"
                             + " will the assignmetn attend please type number of course.");
-                    int courseIndex = checkIntegerInput(
-                            AddDataLists.getArrCourse().size());
+                    int courseIndex = checkIntegerInput(length);
 
-                    UserDao.addAssignmentsPerCoursePerStudent(
+                    DataAccess.addAssignmentsPerCoursePerStudent(
                             courseIndex, assignmentIndex);
                 } else {
                     System.out.println("\n---No courses have been assigned yet.---\n");

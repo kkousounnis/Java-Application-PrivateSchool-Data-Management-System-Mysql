@@ -1,11 +1,12 @@
-package dao;
+package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import models.AddDataLists;
+import java.util.ArrayList;
+import java.util.List; 
 import models.Assignment;
 import models.ConvertDateLong;
 import models.Course;
@@ -14,11 +15,11 @@ import models.TitleName;
 import models.Trainer;
 import util.DbUtil;
 
-public class UserDao {
+public class DataAccess {
 
     private static Connection connection = DbUtil.getConnection();
 
-    public UserDao() {
+    public DataAccess() {
 
     }
 
@@ -141,8 +142,9 @@ public class UserDao {
     }
 
     //take from database students
-    public static void takeSudentsDb() {
-        Student s;
+    public static int selectSudents() {
+        List<Student> arrStudents = new ArrayList<>();
+        Student student;
         Statement statement = null;
         ResultSet rs = null;
         try {
@@ -152,7 +154,7 @@ public class UserDao {
 
             while (rs.next()) {
 
-                s = new Student(
+                student = new Student(
                         rs.getString("firstname"),
                         rs.getString("lastname"),
                         ConvertDateLong.convertDbDate(
@@ -164,19 +166,32 @@ public class UserDao {
                     again and again and we would have multiple times the same 
                     values.
                  */
-                if (rs.getInt("Sid") > AddDataLists.getArrStudent().size()) {
-                    AddDataLists.AddStudentsLists(s);
-                }
+                
+                
+//                if (rs.getInt("Sid") > AddDataLists.getArrStudent().size()) {
+//                    AddDataLists.AddStudentsLists(s);
+//                   
+//                }
+                arrStudents.add(student);
+                 
             }
+           
+            System.out.println("---Students---");
+            int i=1;
+            for (Student s: arrStudents) {
+                System.out.println((i++) + ": " + s);
+            }
+            
         } catch (SQLException se) {
             se.printStackTrace();
         }
-
+        return (arrStudents.size());
     }
 
     //take from database courses
-    public static void takeCoursesDb() {
-        Course c;
+    public static int selectCourses() {
+        List<Course> arrCourses = new ArrayList<>();
+        Course course;
         Statement statement = null;
         ResultSet rs = null;
         try {
@@ -184,7 +199,7 @@ public class UserDao {
 
             rs = statement.executeQuery("SELECT * FROM `courses`");
             while (rs.next()) {
-                c = new Course(
+                course = new Course(
                         new TitleName(rs.getString("title")),
                         rs.getString("stream"),
                         (rs.getString("type").charAt(0) == 'F') ? true : false,
@@ -198,18 +213,26 @@ public class UserDao {
                     again and again and we would have multiple times the same 
                     values.
                  */
-                if (rs.getInt("Cid") > AddDataLists.getArrCourse().size()) {
-                    AddDataLists.AddCourseList(c);
-                }
+//                if (rs.getInt("Cid") > AddDataLists.getArrCourse().size()) {
+//                    AddDataLists.AddCourseList(course);
+//                }
+                arrCourses.add(course);
+            }
+            System.out.println("---Courses---");
+            int i=1;
+            for (Course c: arrCourses) {
+                System.out.println((i++) + ": " + c);
             }
         } catch (SQLException se) {
             se.printStackTrace();
         }
+        return (arrCourses.size());
     }
 
     //take from database trainers
-    public static void takeTrainersDb() {
-        Trainer t;
+    public static int selectTrainers() {
+        List<Trainer> arrTrainers = new ArrayList<>();
+        Trainer trainer;
         Statement statement = null;
         ResultSet rs = null;
         try {
@@ -218,7 +241,7 @@ public class UserDao {
             rs = statement.executeQuery("SELECT * FROM `trainers`");
             while (rs.next()) {
 
-                t = new Trainer(
+                trainer = new Trainer(
                         rs.getString("firstname"),
                         rs.getString("lastname"),
                         rs.getString("subject"));
@@ -228,18 +251,26 @@ public class UserDao {
                     again and again and we would have multiple times the same 
                     values.
                  */
-                if (rs.getInt("Tid") > AddDataLists.getArrTrainer().size()) {
-                    AddDataLists.AddTrainer(t);
-                }
+//                if (rs.getInt("Tid") > AddDataLists.getArrTrainer().size()) {
+//                    AddDataLists.AddTrainer(t);
+//                }
+                arrTrainers.add(trainer);
+            }
+            System.out.println("---Trainers---");
+            int i=1;
+            for (Trainer t: arrTrainers) {
+                System.out.println((i++) + ": " + t);
             }
         } catch (SQLException se) {
             se.printStackTrace();
         }
+        return (arrTrainers.size());
     }
 
     //take from database Assignments    
-    public static void takeAssignmentsDb() {
-        Assignment a;
+    public static int selectAssignments() {
+        List<Assignment> arrAssignments = new ArrayList<>();
+        Assignment assignments;
         Statement statement = null;
         ResultSet rs = null;
         try {
@@ -248,7 +279,7 @@ public class UserDao {
             rs = statement.executeQuery("SELECT * FROM `assignments`");
             while (rs.next()) {
 
-                a = new Assignment(
+                assignments = new Assignment(
                         new TitleName(rs.getString("title")),
                         rs.getString("description"),
                         ConvertDateLong.convertDbDate(rs.getDate("subdatetime")));
@@ -258,13 +289,20 @@ public class UserDao {
                     again and again and we would have multiple times the same 
                     values.
                  */
-                if (rs.getInt("Aid") > AddDataLists.getArrAssignment().size()) {
-                    AddDataLists.AddAssignment(a);
-                }
+//                if (rs.getInt("Aid") > AddDataLists.getArrAssignment().size()) {
+//                    AddDataLists.AddAssignment(a);
+//                }
+                arrAssignments.add(assignments);
+            }
+            System.out.println("---Assignments---");
+            int i=1;
+            for (Assignment a: arrAssignments) {
+                System.out.println((i++) + ": " + a);
             }
         } catch (SQLException se) {
             se.printStackTrace();
         }
+        return (arrAssignments.size());
     }
 
     //Insert to Database Students per Course
@@ -277,10 +315,18 @@ public class UserDao {
                     "INSERT INTO `studentspercourses`"
                     + "(`id_course`,"
                     + "`id_student`)"
-                    + " VALUES (?,?)");
+                    + " VALUES (?,?)"
+                    + "ON DUPLICATE KEY UPDATE `id_course` = ?, `id_student` = ?");
 
             preparedStatement.setInt(1, courseid);
             preparedStatement.setInt(2, studentid);
+            /**
+                In case user gives duplicate entries update the same values
+                I don't create a primare id key because we would have 
+                duplicate entries with diferrent id students per course
+            * */
+            preparedStatement.setInt(3, courseid);
+            preparedStatement.setInt(4, studentid);
 
             preparedStatement.executeUpdate();
             System.out.println("Assignment of students per course succesfully "
@@ -300,10 +346,18 @@ public class UserDao {
                     "INSERT INTO `trainerspercourse`"
                     + "(`id_course`,"
                     + "`id_trainer`)"
-                    + " VALUES (?,?)");
+                    + " VALUES (?,?)"
+                    + "ON DUPLICATE KEY UPDATE `id_course` = ?, `id_trainer` = ?");
 
             preparedStatement.setInt(1, courseid);
             preparedStatement.setInt(2, trainerid);
+            /**
+                In case user gives duplicate entries update the same values
+                I don't create a primare id key because we would have 
+                duplicate entries with diferrent id trainers per course
+            * */
+            preparedStatement.setInt(3, courseid);
+            preparedStatement.setInt(4, trainerid);
 
             preparedStatement.executeUpdate();
             System.out.println("Assignment of trainers per course succesfully "
@@ -323,17 +377,28 @@ public class UserDao {
                     "INSERT INTO `assignmentspercourse`"
                     + "(`id_course`,"
                     + "`id_assignment`)"
-                    + " VALUES (?,?)");
+                    + " VALUES (?,?)"
+                    + "ON DUPLICATE KEY UPDATE `id_course` = ?, `id_assignment` = ? ");
 
             preparedStatement.setInt(1, courseid);
             preparedStatement.setInt(2, assignmentid);
+            /**
+                In case user gives duplicate entries update the same values
+                I don't create a primare id key because we would have 
+                duplicate entries with diferrent id assignments per course
+            * */
+            preparedStatement.setInt(3, courseid);
+            preparedStatement.setInt(4, assignmentid);
 
             preparedStatement.executeUpdate();
             System.out.println("Assignment of assignments per course succesfully "
                     + "inserted to Database.");
         } catch (SQLException e) {
+            
             e.printStackTrace();
         }
+            
+        
     }
 
     //Show students per Course from Database
