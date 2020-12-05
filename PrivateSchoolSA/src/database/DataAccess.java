@@ -312,7 +312,7 @@ public class DataAccess {
         try {
 
             preparedStatement = connection.prepareStatement(
-                    "INSERT INTO `studentspercourses`"
+                    "INSERT INTO `studentspercourse`"
                     + "(`id_course`,"
                     + "`id_student`)"
                     + " VALUES (?,?)"
@@ -424,11 +424,11 @@ public class DataAccess {
                     + "    `students`.`dateofbirth`,"
                     + "    `students`.`tuitionfees`"
                     + "FROM"
-                    + "    `studentspercourses`"
+                    + "    `studentspercourse`"
                     + "        INNER JOIN"
-                    + "    `students` ON `students`.`Sid` = `studentspercourses`.`id_student`"
+                    + "    `students` ON `students`.`Sid` = `studentspercourse`.`id_student`"
                     + "        INNER JOIN"
-                    + "    `courses` ON `courses`.`Cid` = `studentspercourses`.`id_course`"
+                    + "    `courses` ON `courses`.`Cid` = `studentspercourse`.`id_course`"
                     + "ORDER BY `courses`.`Cid`;");
             while (rs.next()) {
 
@@ -614,9 +614,9 @@ public class DataAccess {
                     + "        INNER JOIN"
                     + "    `courses` ON `courses`.`Cid` = `assignmentspercourse`.`id_course`"
                     + "        INNER JOIN"
-                    + "    `studentspercourses` ON `studentspercourses`.`id_course` = `courses`.`Cid`"
+                    + "    `studentspercourse` ON `studentspercourse`.`id_course` = `courses`.`Cid`"
                     + "        INNER JOIN"
-                    + "    `students` ON `students`.`Sid` = `studentspercourses`.`id_student`"
+                    + "    `students` ON `students`.`Sid` = `studentspercourse`.`id_student`"
                     + "ORDER BY `courses`.`Cid` , `students`.`Sid` , `assignments`.`Aid`;");
             while (rs.next()) {
 
@@ -676,12 +676,12 @@ public class DataAccess {
                     + "    `students`.`Sid` AS `Student_ID`,"
                     + "    `students`.`firstname` AS `First_Name`,"
                     + "    `students`.`lastname` AS `Last_Name`,"
-                    + "    COUNT(`studentspercourses`.`id_student`) AS `HowManyCourses`"
+                    + "    COUNT(`studentspercourse`.`id_student`) AS `HowManyCourses`"
                     + "FROM"
-                    + "    `studentspercourses`"
+                    + "    `studentspercourse`"
                     + "        INNER JOIN"
-                    + "    `students` ON `students`.`Sid` = `studentspercourses`.`id_student`"
-                    + "GROUP BY `studentspercourses`.`id_student`"
+                    + "    `students` ON `students`.`Sid` = `studentspercourse`.`id_student`"
+                    + "GROUP BY `studentspercourse`.`id_student`"
                     + "HAVING `HowManyCourses` > 1;");
             while (rs.next()) {
 
