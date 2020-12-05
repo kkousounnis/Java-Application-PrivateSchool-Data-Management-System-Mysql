@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `assignments` (
 
 -- Create Table `studentspercourses`
 
-CREATE TABLE IF NOT EXISTS `studentspercourses` (
+CREATE TABLE IF NOT EXISTS `studentspercourse` (
     `id_course` INT NOT NULL,
     `id_student` INT NOT NULL,
     PRIMARY KEY (`id_course`,`id_student`),
@@ -145,7 +145,7 @@ VALUES('Assignment1','Create a hello world app','2021/01/08'),
 
 -- Insert values to studentspercourses
 
-INSERT INTO `studentspercourses`(`id_course`,`id_student`) VALUES (1,1),(2,1),(3,1)
+INSERT INTO `studentspercourse`(`id_course`,`id_student`) VALUES (1,1),(2,1),(3,1)
 ,(1,2),(3,2),
 (4,3),(2,3),
 (5,4),
