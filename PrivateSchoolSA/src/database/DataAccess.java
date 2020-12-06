@@ -566,7 +566,7 @@ public class DataAccess {
                 }
 
                 assignment = new Assignment(
-                        new TitleName(rs.getString("title")),
+                        new TitleName(rs.getString("assignments.title")),
                         rs.getString("description"),
                         ConvertDateLong.convertDbDate(rs.getDate("subdatetime")));
 
